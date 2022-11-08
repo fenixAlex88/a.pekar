@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 ANKETA</title>
+</head>
+
+<body>
+    <h1>N.03 Домашнее задание ANKETA</h1>
+
+    <script>
+
+        // Ввод данных
+        let lastName, firstName, middleName, age;
+        while (!lastName || !isNaN(lastName)) { lastName = prompt('Введите Вашу фамилию', 'Иванов') };
+        while (!firstName || !isNaN(firstName)) { firstName = prompt('Введите Ваше имя', 'Иван') };
+        while (!middleName || !isNaN(middleName)) { middleName = prompt('Введите Ваше отчество', 'Иванович') };
+        while (isNaN(age)) age = parseInt(prompt('Введите Ваш возраст', '20'));
+        const isMan = confirm('Вы мужчина?');
+        const isRetired = (isMan && age >= 63) || (!isMan && age >= 58);
+
+        // Вывод анкеты  
+        alert(`Ваше ФИО: ${lastName} ${firstName} ${middleName} 
+Ваш возраст в годах: ${age} 
+Ваш возраст в днях: ${age * 365}
+Через 5 лет вам будет: ${age + 5}
+Ваш пол: ${isMan ? 'мужской' : 'женский'}
+Вы на пенсии: ${isRetired ? 'да' : 'нет'}`);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+body {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    padding: 20px 20px;
+    background-color: #ffffe9;
+    font-size: 24px;
+    border: 1px solid #666;
+    border-radius: 4px;
+}
+
+.checked {
+    background-color: #42e285;
+}
+
+a {
+    text-decoration: none;
+}
+
+a, a:visited {
+    color: #5656dd;
+}
