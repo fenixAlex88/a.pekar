@@ -18,7 +18,7 @@
         while (!lastName || !isNaN(lastName)) { lastName = prompt('Введите Вашу фамилию', 'Иванов') };
         while (!firstName || !isNaN(firstName)) { firstName = prompt('Введите Ваше имя', 'Иван') };
         while (!middleName || !isNaN(middleName)) { middleName = prompt('Введите Ваше отчество', 'Иванович') };
-        while (isNaN(age)) age = parseInt(prompt('Введите Ваш возраст', '20'));
+        while (!age) age = parseInt(prompt('Введите Ваш возраст', '20'));
         const isMan = confirm('Вы мужчина?');
         const isRetired = (isMan && age >= 63) || (!isMan && age >= 58);
 
