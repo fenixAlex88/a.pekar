@@ -17,9 +17,17 @@ h1 {
     border: 1px solid #666;
     border-radius: 4px;
 }
+.task::after {
+    color: #000;
+    content: "not checked";
+}
 
 .checked {
     background-color: #42e285;
+}
+
+.checked::after {
+    content: "checked";
 }
 
 a {
