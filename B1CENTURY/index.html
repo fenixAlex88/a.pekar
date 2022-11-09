@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENTURY</title>
+</head>
+<body>
+    <h1>B1+ Доп.задание ВЕК</h1>
+    <script>
+        //Ввод данных
+        let year;
+        while (!year) {year = parseInt(prompt("Введите год"))};
+        //Вывод века
+        alert(century(year));
+        //Функция вода года в век
+        function century(year) {
+            if (year >= 0) return Math.ceil(year/100) + ' век';
+            return Math.ceil(-year / 100) + ' век до н.э.';
+        };
+    </script>
+</body>
+</html>
