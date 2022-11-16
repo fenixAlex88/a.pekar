@@ -19,7 +19,7 @@ function getNumber(num) {
     if (b === '' && sign === '') {
         a += num;
         out.textContent = a;
-    } else if (a !== '' && b !== '' && fin) {
+    } else if (a !== '' && fin) {
         b = num;
         out.textContent = b;
         fin = false;
@@ -36,7 +36,7 @@ function changeSign() {
     if (b === '') {
         a = -a;
         out.textContent = a;
-    } else if (a !== '' && b !== '' && fin) {
+    } else if (a !== '' && fin) {
         a = -a;
         b = '';
         out.textContent = a;
@@ -84,6 +84,8 @@ function getResult() {
             a = a * b / 100;
     }
     fin = true;
+    b = '';
+    sign = '';
     out.textContent = a;
     console.log(`result ${a} ${sign} ${b}`)
 }
