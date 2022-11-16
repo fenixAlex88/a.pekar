@@ -2,31 +2,9 @@ let a = ''; //перыое число
 let b = ''; //второе число
 let sign = ''; //операция
 let fin = false;
-const out = document.querySelector('.calc__screen p');
 
 
-function allClear(a) {
-    a = '';
-    b = '';
-    sign = '';
-    fin = false;
-    out.textContent = 0;
-    console.log('clear');
-}
-
-function getNumber(num) {
-
-}
-
-function getSign(sign) {
-
-}
-
-function getResult() {
-
-}
-
-/*const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 const act = ['-', '+', 'X', '/'];
 
 //экран
@@ -103,4 +81,4 @@ document.querySelector('.calc__buttons').onclick = (e) => {
         console.log(`${a} ${b} ${sign}`)
 
     }
-}*/
+}
