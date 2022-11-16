@@ -17,8 +17,14 @@ function allClear() {
 //получение чисел
 function getNumber(num) {
     if (b === '' && sign === '') {
-        a += num;
-        out.textContent = a;
+        if (fin) {
+            a = num;
+            fin = false;
+            out.textContent = a;
+        } else {
+            a += num;
+            out.textContent = a;
+        }
     } else if (a !== '' && fin) {
         b = num;
         out.textContent = b;
