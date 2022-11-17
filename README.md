@@ -1,6 +1,7 @@
 # Домашние задания 
+
 **по курсу**
 
-It-academy
+**It-academy**
 
-Java-Script
+**Java-Script**
