@@ -1,3 +1,4 @@
+(function(){
 let a = ''; //перыое число
 let b = ''; //второе число
 let sign = ''; //операция
@@ -82,3 +83,4 @@ document.querySelector('.calc__buttons').onclick = (e) => {
 
     }
 }
+}())
