@@ -4,4 +4,4 @@
 
 **It-academy**
 
-**Java-Script**
+**JavaScript**
