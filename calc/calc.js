@@ -9,7 +9,7 @@ const addKey = (key, num='') => {
     if ((key==='.' && (num === '0.' || num%1!== 0)) || (key==='0' && num==='0')) return num;
     else if (key==='.' && num==='') return '0.';
     else if (key!=='.' && num==='0') return key;
-    else return num+=key;
+    else return num + key;
 }
 //очистка
 function allClear() {
