@@ -16,10 +16,11 @@
     display: grid;
     justify-items: end;
     align-items: end;
+    overflow: hidden;
 }
 
 .calc__screen p {
-    font-size: 4rem;
+    font-size: 3.85rem;
     margin: 0 0 18px 0;
 }
 

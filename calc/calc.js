@@ -61,14 +61,14 @@ function getSign(signKey) {
     sign = signKey;
     out.textContent = sign;
     console.log(`${a} ${sign} ${b}`)
-    return;
-
-}
+    }
 
 //подсчет результата
 function getResult() {
     if (b === '') b = a;
     switch (sign) {
+        case "":
+            break;
         case '+':
             a = (+a) + (+b);
             break;
@@ -79,7 +79,7 @@ function getResult() {
             a = a * b;
             break;
         case '/':
-            if (b == 0) {
+            if (b === 0) {
                 allClear();
                 out.textContent = 'Деление на ноль!';
                 return;
