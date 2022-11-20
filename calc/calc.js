@@ -4,6 +4,13 @@ let sign = ''; //операция
 let fin = false;
 const out = document.querySelector('.calc__screen p');
 
+//изменение числа после ввода
+const addKey = (key, num='') => {
+    if ((key==='.' && (num === '0.' || num%1!== 0)) || (key==='0' && num==='0')) return num;
+    else if (key==='.' && num==='') return '0.';
+    else if (key!=='.' && num==='0') return key;
+    else return num+=key;
+}
 //очистка
 function allClear() {
     a = '';
@@ -18,20 +25,20 @@ function allClear() {
 function getNumber(num) {
     if (b === '' && sign === '') {
         if (fin) {
-            a = num;
+            a = addKey(num);
             fin = false;
             out.textContent = a;
         } else {
-            a += num;
+            a = addKey(num, a);
             out.textContent = a;
         }
     } else if (a !== '' && fin) {
-        b = num;
+        b = addKey(num);
         out.textContent = b;
         fin = false;
     }
     else {
-        b += num;
+        b = addKey(num, b);
         out.textContent = b;
     }
     console.log(`${a} ${sign} ${b}`);
