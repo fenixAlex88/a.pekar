@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>A2+ Доп.задание Trim</h1>
-</body>
     <script>
         //Ввод строки
         const str = prompt('Введите строку');
@@ -22,15 +21,17 @@
             let last = 0;
             for (let i=0; i<str.length; i++)
                 if (str[i]!=' ') {
-                    first = i; 
+                    first = i;
                     break;
                 }
             for (let i=str.length-1; i>0; i--)
                 if (str[i-1]!=' ') {
-                    last = i; 
+                    last = i;
                     break;
                 }
             return str.slice(first,last);
         }
     </script>
+</body>
+
 </html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vowels</title>
+</head>
+<body>
+    <h1>N.07 Домашнее задание VOWELS</h1>
+    <script>
+        //Функция подсчета гласных букв
+        const vowels = s => {
+            const vowels = 'уеаоэяию';
+            let count = 0;
+            for (let i = 0; i < s.length; i++) {
+                if (vowels.includes(s[i].toLowerCase())) {
+                    count++
+                }
+            }
+            return count;
+        }
+        //Функция выбора окончания
+        const declOfNum = n => (n === 1) ? 'гласную букву' : (n > 1 && n < 5) ? 'гласные буквы' : 'гласных букв';
+        //Ввод строки
+        const str = prompt('Введите строку:');
+
+        const vowelsCount = vowels(str);
+        //Вывод количества гласных букв
+        alert(`Введенная строка сожержит ${vowelsCount} ${declOfNum(vowelsCount)}!`)
+
+    </script>
+</body>
+</html>

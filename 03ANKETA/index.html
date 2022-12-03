@@ -9,27 +9,36 @@
 </head>
 
 <body>
-    <h1>N.03 Домашнее задание ANKETA</h1>
+<h1>N.03 Домашнее задание ANKETA</h1>
 
-    <script>
+<script>
 
-        // Ввод данных
-        let lastName, firstName, middleName, age;
-        while (!lastName || !isNaN(lastName)) { lastName = prompt('Введите Вашу фамилию', 'Иванов') };
-        while (!firstName || !isNaN(firstName)) { firstName = prompt('Введите Ваше имя', 'Иван') };
-        while (!middleName || !isNaN(middleName)) { middleName = prompt('Введите Ваше отчество', 'Иванович') };
-        while (!age) age = parseInt(prompt('Введите Ваш возраст', '20'));
-        const isMan = confirm('Вы мужчина?');
-        const isRetired = (isMan && age >= 63) || (!isMan && age >= 58);
+    // Ввод данных
+    let lastName, firstName, middleName, age;
+    while (!lastName || !isNaN(lastName)) {
+        lastName = prompt('Введите Вашу фамилию', 'Иванов')
+    }
+    ;
+    while (!firstName || !isNaN(firstName)) {
+        firstName = prompt('Введите Ваше имя', 'Иван')
+    }
+    ;
+    while (!middleName || !isNaN(middleName)) {
+        middleName = prompt('Введите Ваше отчество', 'Иванович')
+    }
+    ;
+    while (!age) age = parseInt(prompt('Введите Ваш возраст', '20'));
+    const isMan = confirm('Вы мужчина?');
+    const isRetired = (isMan && age >= 63) || (!isMan && age >= 58);
 
-        // Вывод анкеты  
-        alert(`Ваше ФИО: ${lastName} ${firstName} ${middleName} 
+    // Вывод анкеты
+    alert(`Ваше ФИО: ${lastName} ${firstName} ${middleName}
 Ваш возраст в годах: ${age} 
 Ваш возраст в днях: ${age * 365}
 Через 5 лет вам будет: ${age + 5}
 Ваш пол: ${isMan ? 'мужской' : 'женский'}
 Вы на пенсии: ${isRetired ? 'да' : 'нет'}`);
-    </script>
+</script>
 </body>
 
 </html>

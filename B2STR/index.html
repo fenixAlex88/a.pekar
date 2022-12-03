@@ -7,16 +7,17 @@
     <title>STR Reverse</title>
 </head>
 <body>
-    <h1>B2+ Доп.задание Перевернуть строку</h1>
-    <script>
-        //Ввод данных
-        const str = prompt("Введите строку");
-        //Вывод перевернутой строки
-        alert(strReverse(str));
-        //Функция переворота строки
-        function strReverse(s) {
-                return (s!== "") ? s.split("").reverse().join("") : "Пустая  строка!!!";
-        }
-    </script>
+<h1>B2+ Доп.задание Перевернуть строку</h1>
+<script>
+    //Ввод данных
+    const str = prompt("Введите строку");
+    //Вывод перевернутой строки
+    alert(strReverse(str));
+
+    //Функция переворота строки
+    function strReverse(s) {
+        return (s !== "") ? s.split("").reverse().join("") : "Пустая  строка!!!";
+    }
+</script>
 </body>
 </html>

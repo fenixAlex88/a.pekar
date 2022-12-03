@@ -5,12 +5,13 @@ let fin = false;
 const out = document.querySelector('.calc__screen p');
 
 //изменение числа после ввода
-const addKey = (key, num='') => {
-    if ((key==='.' && (num === '0.' || num%1!== 0)) || (key==='0' && num==='0')) return num;
-    else if (key==='.' && num==='') return '0.';
-    else if (key!=='.' && num==='0') return key;
+const addKey = (key, num = '') => {
+    if ((num.length > 5) || (key === '.' && (num === '0.' || num % 1 !== 0)) || (key === '0' && num === '0')) return num;
+    else if (key === '.' && num === '') return '0.';
+    else if (key !== '.' && num === '0') return key;
     else return num + key;
 }
+
 //очистка
 function allClear() {
     a = '';
@@ -36,8 +37,7 @@ function getNumber(num) {
         b = addKey(num);
         out.textContent = b;
         fin = false;
-    }
-    else {
+    } else {
         b = addKey(num, b);
         out.textContent = b;
     }
@@ -54,8 +54,7 @@ function changeSign() {
         b = '';
         out.textContent = a;
         fin = false;
-    }
-    else {
+    } else {
         b = -b;
         out.textContent = b;
     }
@@ -68,7 +67,7 @@ function getSign(signKey) {
     sign = signKey;
     out.textContent = sign;
     console.log(`${a} ${sign} ${b}`)
-    }
+}
 
 //подсчет результата
 function getResult() {
