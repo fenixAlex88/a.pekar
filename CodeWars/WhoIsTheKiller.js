@@ -4,6 +4,7 @@ function killer(suspectInfo, dead) {
     }
 }
 
+
 console.log(killer({
         'James': ['Jacob', 'Bill', 'Lucas'],
         'Johnny': ['David', 'Kyle', 'Lucas'],
