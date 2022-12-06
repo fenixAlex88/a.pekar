@@ -4,9 +4,7 @@ const ex = ' .?!,ьъЬЪ';
         while (ex.includes(str[i])) i++;
         while (ex.includes(str[j])) j--;
         if (str[i].toLowerCase().replace('ё','е')!==str[j].toLowerCase().replace('ё','е')) {
-            console.log(str[i].replace('ё','е').toLowerCase());
-            console.log(str[j].replace('ё','е').toLowerCase());
-            return false;
+           return false;
         }
     }
     return true;
