@@ -1,4 +1,4 @@
-const cars = [
+let cars = [
     {
         id: 1,
         brand: 'Mercedes',
@@ -49,7 +49,7 @@ const cars = [
     }
 ]
 
-const render = (cars) => {
+const render = () => {
 
     document.querySelector('#app').innerHTML = cars.reduce((s, car) => {
         s +=
@@ -65,15 +65,27 @@ const render = (cars) => {
     }, '');
 };
 
-const search = (cars) => {
+const search = () => {
     const str = document.getElementById('search').value;
-    render(cars.filter(car=>(car.brand.toLowerCase()===str.toLowerCase())||(car.model.toLowerCase()===str.toLowerCase())));
+    cars = cars.filter(car => (car.brand.toLowerCase() === str.toLowerCase()) || (car.model.toLowerCase() === str.toLowerCase()));
+    render();
 };
 
-const sortUp = (cars) =>{
+const sortUp = () => {
     render(cars.sort((a, b) => a.price - b.price))
 }
 
-const sortDown = (cars) =>{
+const sortDown = () => {
     render(cars.sort((a, b) => b.price - a.price));
+}
+
+const addNewCar = () => {
+    cars.push({id:cars.length+1, 
+        brand: document.newCar.brand.value,
+        model: document.newCar.model.value,
+        imageURL: document.newCar.imageURL.value,
+        description: document.newCar.description.value,
+        price: document.newCar.price.value});
+        render();
+    
 }
