@@ -25,14 +25,14 @@ function HashStorageFunc() {
 
 const drinkStorage = new HashStorageFunc();
 
-enter.onclick = function () {
+document.getElementById('enter').onclick = function () {
     const drinkName = prompt('Введите название напитка');
     const drinkAlcohol = prompt('Напиток алкогольный?');
     const drinkComposition = prompt('Введите рецепт напитка');
     return drinkStorage.addValue(drinkName, {drinkAlcohol, drinkComposition});
 };
 
-getInfo.onclick = function () {
+document.getElementById('getInfo').onclick = function () {
     const drinkName = prompt('Введите название напитка');
     const info = drinkStorage.getValue(drinkName)
     if (info) {
@@ -44,13 +44,13 @@ ${drinkComposition}`);
     } else alert(`Напиток ${drinkName} не найден`);
 }
 
-del.onclick = function () {
+document.getElementById('del').onclick = function () {
     const drinkName = prompt('Введите название напитка');
     if (drinkStorage.deleteValue(drinkName))
         alert(`Информация о напитке ${drinkName} удалена`);
     else alert(`Напиток ${drinkName} не найден`);
 }
 
-getList.onclick = function () {
+document.getElementById('getList').onclick = function () {
     alert(`Имеется информация о напитках: ${drinkStorage.getKeys()}`);
 }

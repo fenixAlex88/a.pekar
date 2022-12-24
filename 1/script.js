@@ -80,12 +80,13 @@ const sortDown = () => {
 }
 
 const addNewCar = () => {
-    cars.push({id:cars.length+1, 
+    cars.push({
+        id: cars.length + 1,
         brand: document.newCar.brand.value,
         model: document.newCar.model.value,
         imageURL: document.newCar.imageURL.value,
         description: document.newCar.description.value,
-        price: document.newCar.price.value});
-        render();
-    
+        price: document.newCar.price.value
+    });
+    render();
 }

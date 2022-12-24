@@ -31,32 +31,32 @@ class HashStorageClass {
 
 const drinkStorage = new HashStorageClass();
 
-enter.onclick = function () {
+document.getElementById('enter').onclick = () => {
     const drinkName = prompt('Введите название напитка');
-    const drinkAlcohol = confirm('Напиток алкогольный?');
+    const drinkAlcohol = prompt('Напиток алкогольный?');
     const drinkComposition = prompt('Введите рецепт напитка');
     return drinkStorage.addValue(drinkName, {drinkAlcohol, drinkComposition});
 };
 
-getInfo.onclick = function () {
+document.getElementById('getInfo').onclick = () => {
     const drinkName = prompt('Введите название напитка');
     const info = drinkStorage.getValue(drinkName)
     if (info) {
         const {drinkAlcohol, drinkComposition} = info;
         alert(`напиток ${drinkName}
-алкогольный: ${drinkAlcohol ? 'да' : 'нет'}
+алкогольный: ${drinkAlcohol} 
 рецепт приготовления: 
 ${drinkComposition}`);
     } else alert(`Напиток ${drinkName} не найден`);
 }
 
-del.onclick = function () {
+document.getElementById('del').onclick = () => {
     const drinkName = prompt('Введите название напитка');
-    if (drinkStorage.deleteValue(drinkName))
-        alert(`Информация о напитке ${drinkName} удалена`);
-    else alert(`Напиток ${drinkName} не найден`);
+    drinkStorage.deleteValue(drinkName) ?
+        alert(`Информация о напитке ${drinkName} удалена`) :
+        alert(`Напиток ${drinkName} не найден`);
 }
 
-getList.onclick = function () {
+document.getElementById('getList').onclick = () => {
     alert(`Имеется информация о напитках: ${drinkStorage.getKeys()}`);
 }
