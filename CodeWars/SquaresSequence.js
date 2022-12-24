@@ -6,5 +6,5 @@ function squares(x, n) {
     return arr;
 }
 
-//const squares = (x, n) => {const arr = Array(n); return arr.map((e,i)=>x ** 2 ** i);}
+//const squares = (x, n) => {const arr = Array(n); return arr.map((e,i)=>x ** move_square ** i);}
 console.log(squares(5, 3));
