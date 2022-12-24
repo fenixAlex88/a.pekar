@@ -1,87 +1,60 @@
-const canvas = document.getElementById('game');
+const canvas = document.getElementById('app');
 const context = canvas.getContext('2d');
-const battlefield = new Image();
-battlefield.src = 'img/battlefield.png';
 
-const foodImg = new Image();
-foodImg.src = 'img/apple.png';
-
-const box = 32;
-let score = 0;
-const food = {
-    x: Math.floor(Math.random() * 17 + 1) * box,
-    y: Math.floor(Math.random() * 15 + 3) * box
-};
-const snake = [];
-snake[0] = {
-    x: 9 * box,
-    y: 10 * box
-};
-let dir;
+const box = 32,
+    apple = {
+        x: Math.floor(Math.random() * 18) * box,
+        y: Math.floor(Math.random() * 18) * box
+    },
+    snake = [{
+        x: 9 * box,
+        y: 9 * box
+    }];
+let dir,
+    score = 0;
 
 document.addEventListener('keydown', e => {
     switch (e.keyCode) {
         case 37:
-            if (dir !== 'right')
-                dir = 'left';
+            dir = dir !== 'right'?'left':'right';
             break;
         case 38:
-            if (dir !== 'down')
-                dir = 'up';
+            dir = dir !== 'down'?'up':'down';
             break;
         case 39:
-            if (dir !== 'left')
-                dir = 'right';
+            dir = dir !== 'left'?'right':'left';
             break;
         case 40:
-            if (dir !== 'up')
-                dir = 'down';
+            dir = dir !== 'up'?'down':'up';
             break;
     }
 });
-const gameOver = () => {
-    clearInterval(game);
-    alert(`                             GAME OVER!!!
-                ___________________________________
-                             your score ${score}
-                ___________________________________
-                          press F5 for replay`)
-}
 
-const eatTail = (head, snake) => {
-    snake.forEach(e => {
-        if (head.x === e.x && head.y === e.y) gameOver();
-    })
-}
-
-
-const drawGame = () => {
-    context.drawImage(battlefield, 0, 0);
-    context.drawImage(foodImg, food.x, food.y);
-
+const render = () => {
+    context.fillStyle = '#cbcbcb';
+    context.fillRect(0, 0, box * 19, box * 19)
+    context.fillStyle = '#676767';
+    context.fillRect(0, box * 19, box * 19, box * 5)
+    context.fillStyle = '#ff1111';
+    context.fillRect(apple.x, apple.y, box, box)
     for (let i = 0; i < snake.length; i++) {
-        context.fillStyle = i === 0 ? 'orange' : 'green';
+        context.fillStyle = i === 0 ? '#962f2f' : '#ad895a';
         context.fillRect(snake[i].x, snake[i].y, box, box)
     }
-    context.fillStyle = 'white';
-    context.font = '50px Arial';
-    context.fillText(score, box * 2.5, box * 1.7)
+    context.fillStyle = '#000';
+    context.font = '48px sanserif';
+    context.fillText(`Score: ${score}`, box * 1, box * 21)
 
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
-    if (snakeX === food.x && snakeY === food.y) {
+    if (snakeX === apple.x && snakeY === apple.y) {
         score++;
-        food.x = Math.floor(Math.random() * 17 + 1) * box;
-        food.y = Math.floor(Math.random() * 15 + 3) * box;
+        apple.x = Math.floor(Math.random() * 18) * box;
+        apple.y = Math.floor(Math.random() * 18) * box;
     } else {
         snake.pop();
     }
-    ;
-
-    if (snakeX < box || snakeX > box * 17
-        || snakeY < 3 * box || snakeY > box * 17)
-        gameOver();
 
     switch (dir) {
         case 'left':
@@ -98,11 +71,13 @@ const drawGame = () => {
             break;
     }
 
-    eatTail({x: snakeX, y: snakeY}, snake);
-    snake.unshift({
-        x: snakeX,
-        y: snakeY
-    });
-}
+    snake.some(e => snakeX === e.x && snakeY === e.y) ? clearInterval(game)
+        : snake.unshift({
+            x: snakeX,
+            y: snakeY
+        });
 
-const game = setInterval(drawGame, 125);
+    if (snakeX < 0 || snakeX > box * 18 || snakeY < 0 || snakeY > box * 18)
+        clearInterval(game);
+}
+const game = setInterval(render, 125);
