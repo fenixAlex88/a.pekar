@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #d0d0d0;
+}
+
+.construstor {
+    padding: 25px;
+}
+
+#content {
+    margin: 25px;
+    min-height: 150px;
+    background-color: #fff;
+}
+button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 20px;
+}

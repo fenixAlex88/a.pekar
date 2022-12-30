@@ -80,4 +80,4 @@ const render = () => {
     if (snakeX < 0 || snakeX > box * 18 || snakeY < 0 || snakeY > box * 18)
         clearInterval(game);
 }
-const game = setInterval(render, 125);
+const game = setInterval(render, 300);
