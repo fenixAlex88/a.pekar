@@ -1,11 +1,41 @@
+:root {
+    --heading-color: #000;
+    --bg-color: #fff;
+    --task-bg-color: #ffffe9;
+    --border-color: #666;
+    --checked-color: #000;
+    --checked-bg-color: #42e285;
+    --link-color: #5656dd;
+}
+
 body {
+    background-color: var(--bg-color);
+}
+
+.container {
+    margin: 0 auto;
     max-width: 1200px;
     min-width: 600px;
-    margin: 0 auto;
 }
 
 h1 {
+    color: var(--heading-color);
     text-align: center;
+}
+
+.themes {
+    display: flex;
+    align-items: baseline;
+    justify-content: end;
+}
+
+.themes select {
+    color: var(--heading-color);
+    background-color: var(--bg-color);
+    margin-right: 15px;
+    padding: 0 5px;
+    font-size: 1rem;
+    border-radius: 5px;
 }
 
 .task {
@@ -13,18 +43,19 @@ h1 {
     justify-content: space-between;
     margin: 15px;
     padding: 10px 20px;
-    background-color: #ffffe9;
+    background-color: var(--task-bg-color);
     font-size: 24px;
-    border: 1px solid #666;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 }
+
 .task::after {
-    color: #000;
+    color: var(--checked-color);
     content: "not checked";
 }
 
 .checked {
-    background-color: #42e285;
+    background-color: var(--checked-bg-color);
 }
 
 .checked::after {
@@ -36,5 +67,5 @@ a {
 }
 
 a, a:visited {
-    color: #5656dd;
+    color: var(--link-color);
 }

@@ -1,10 +1,10 @@
 let formCount = 1;
 
-function renderForm(formArr) {
+const renderForm = formArr => {
     const form = document.createElement('form');
     form.action = 'http://fe.it-academy.by/TestForm.php';
     form.name = `form${formCount++}`;
-    document.body.appendChild(form);
+    document.getElementById('app').appendChild(form);
     const hr = document.createElement('hr');
     form.appendChild(hr);
     formArr.forEach(formElem => {

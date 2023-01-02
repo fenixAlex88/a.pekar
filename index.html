@@ -10,7 +10,14 @@
 </head>
 
 <body>
+<div class="container">
     <h1>Домашние задания</h1>
+    <form class="themes">
+        <select id="themeSelect">
+            <option value="light">Светлая тема</option>
+            <option value="dark">Темная тема</option>
+        </select>
+    </form>
     <hr>
     <div class="task checked">
         <a href="03ANKETA/index.html" target="_blank">N.03 Домашнее задание ANKETA</a>
@@ -37,13 +44,13 @@
         <a href="23DYN_FORM/index.html" target="_blank">N.23 Домашнее задание DYN_FORM</a>
     </div>
 
-<!--    <div class="task">-->
-<!--        <a href="calc/index.html" target="_blank">Калькулятор</a>-->
-<!--    </div>-->
+    <!--    <div class="task">-->
+    <!--        <a href="calc/index.html" target="_blank">Калькулятор</a>-->
+    <!--    </div>-->
     <div class="task checked">
         <a href="A2TRIM/index.html" target="_blank">A2+ Доп.задание Trim</a>
     </div>
-     <div class="task checked">
+    <div class="task checked">
         <a href="A3PALINDROM/index.html" target="_blank">A3+и A4+ Доп.задание Palindrom</a>
     </div>
     <div class="task checked">
@@ -52,9 +59,11 @@
     <div class="task checked">
         <a href="B2STR/index.html" target="_blank">B2+ Доп.задание ПЕРЕВЕРНУТЬ СТРОКУ</a>
     </div>
+</div>
 
-        <a href="snake/index.html" target="_blank" onclick="window.open(this.href,this.target,'width= 608,height=701,scrollbars=1,resizable=no');return false;">Змейка</a>
-
+<a href="snake/index.html" target="_blank"
+   onclick="window.open(this.href,this.target,'width= 608,height=701,scrollbars=1,resizable=no');return false;">Змейка</a>
+<script src="app.js"></script>
 </body>
 
 </html>
