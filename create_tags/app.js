@@ -2,15 +2,15 @@ document.getElementById('addH').addEventListener('click', () => {
     const select = document.createElement('select');
     for (let i = 1; i <= 6; i++) {
         const option = document.createElement('option');
-        option.setAttribute('value', `H${i}`);
+        option.value = `H${i}`;
         option.textContent = `H${i}`;
         select.appendChild(option);
     }
     const text = document.createElement('input');
-    text.setAttribute('type', 'text');
+    text.type = 'text';
     const btn = document.createElement('input');
-    btn.setAttribute('type', 'button');
-    btn.setAttribute('value', 'Добавить');
+    btn.type = 'button';
+    btn.value = 'Добавить';
     document.getElementById('prop').appendChild(select);
     document.getElementById('prop').appendChild(text);
     document.getElementById('prop').appendChild(btn);

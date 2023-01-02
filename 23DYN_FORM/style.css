@@ -1,0 +1,25 @@
+form {
+    padding: 15px;
+}
+
+.label {
+    display: inline-block;
+    width: 180px;
+}
+
+.input--longtext {
+    width: 500px;
+}
+
+.input--shorttext {
+    width: 200px;
+}
+
+.input--number {
+    width: 80px;
+}
+
+.textarea {
+    width: 680px;
+    display: block;
+}
