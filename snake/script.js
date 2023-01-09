@@ -11,21 +11,23 @@ const box = 32,
         y: 9 * box
     }];
 let dir,
-    score = 0;
+    score = 0,
+    speed = 300,
+    endGame = false;
 
 document.addEventListener('keydown', e => {
     switch (e.keyCode) {
         case 37:
-            dir = dir !== 'right'?'left':'right';
+            dir = dir !== 'right' ? 'left' : 'right';
             break;
         case 38:
-            dir = dir !== 'down'?'up':'down';
+            dir = dir !== 'down' ? 'up' : 'down';
             break;
         case 39:
-            dir = dir !== 'left'?'right':'left';
+            dir = dir !== 'left' ? 'right' : 'left';
             break;
         case 40:
-            dir = dir !== 'up'?'down':'up';
+            dir = dir !== 'up' ? 'down' : 'up';
             break;
     }
 });
@@ -50,6 +52,7 @@ const render = () => {
 
     if (snakeX === apple.x && snakeY === apple.y) {
         score++;
+        speed -= 10;
         apple.x = Math.floor(Math.random() * 18) * box;
         apple.y = Math.floor(Math.random() * 18) * box;
     } else {
@@ -71,13 +74,19 @@ const render = () => {
             break;
     }
 
-    snake.some(e => snakeX === e.x && snakeY === e.y) ? clearInterval(game)
+    snake.some(e => snakeX === e.x && snakeY === e.y) ? endGame = true
         : snake.unshift({
             x: snakeX,
             y: snakeY
         });
 
     if (snakeX < 0 || snakeX > box * 18 || snakeY < 0 || snakeY > box * 18)
-        clearInterval(game);
+        endGame = true;
 }
-const game = setInterval(render, 300);
+
+function play() {
+    render();
+    !endGame ? setTimeout(play, speed) : null;
+}
+
+setTimeout(play, 1000);

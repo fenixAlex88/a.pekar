@@ -4,6 +4,7 @@ const renderForm = formArr => {
     const form = document.createElement('form');
     form.action = 'http://fe.it-academy.by/TestForm.php';
     form.name = `form${formCount++}`;
+    form.method="post";
     document.getElementById('app').appendChild(form);
     const hr = document.createElement('hr');
     form.appendChild(hr);
@@ -72,6 +73,18 @@ const renderForm = formArr => {
                 input.type = 'submit';
                 input.value = formElem.caption;
                 break;
+            case 'email':
+                form.appendChild(input);
+                input.type = 'email';
+                 break;
+            case 'date':
+                form.appendChild(input);
+                input.type = 'date';
+                break;
+            case 'url':
+                form.appendChild(input);
+                input.type = 'url';
+                break;
             default:
                 break;
         }
@@ -81,3 +94,4 @@ const renderForm = formArr => {
 }
 
 renderForm(formDef1);
+renderForm(formDef2);
