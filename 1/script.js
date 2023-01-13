@@ -50,20 +50,37 @@ let cars = [
 ]
 
 const render = () => {
-
-    document.querySelector('#app').innerHTML = cars.reduce((s, car) => {
-        s +=
-            `<div class="card" style="width: 18rem;">
-<img src="${car.imageURL}" class="card-img-top" alt="...">
-<div class="card-body">
-  <h5 class="card-title">${car.brand} ${car.model}</h5>
-  <p class="card-text">${car.description}</p>
-  <a href="#" class="btn btn-primary">Buy ${car.price}</a>
-</div>
-</div>`;
-        return s;
-    }, '');
-};
+    document.getElementById('app').innerHTML = '';
+    cars.forEach((car) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.style = 'width: 18rem;';
+        const img = document.createElement('img');
+        img.src = `${car.imageURL}`;
+        img.classList.add("card-img-top");
+        card.appendChild(img);
+        const cardBody = document.createElement('div');
+        card.appendChild(cardBody);
+        const h5 = document.createElement('h5');
+        h5.classList.add('card-title');
+        h5.textContent = `${car.brand} ${car.model}`;
+        cardBody.appendChild(h5);
+        const p = document.createElement('p');
+        p.classList.add('card-text');
+        p.textContent = `${car.description}`;
+        cardBody.appendChild(p);
+        const btnBuy = document.createElement('button');
+        btnBuy.classList.add('btn', 'btn-primary');
+        btnBuy.textContent = `Buy ${car.price}`;
+        cardBody.appendChild(btnBuy);
+        const btnDel = document.createElement('button');
+        btnDel.classList.add('btn', 'btn-danger');
+        btnDel.textContent = `Delete`;
+        btnDel.dataset.id = `${car.brand}`;
+        cardBody.appendChild(btnDel);
+        document.getElementById('app').appendChild(card);
+    })
+}
 
 const search = () => {
     const str = document.getElementById('search').value;
