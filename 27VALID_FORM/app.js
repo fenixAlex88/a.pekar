@@ -1,4 +1,5 @@
 //Переменные
+
 //Вся форма
 const form = document.forms.formSite;
 //поля с текстом
@@ -18,6 +19,7 @@ const inputCheckbox = document.querySelector('input[ type="checkbox"]');
 const select = document.querySelector('select');
 
 //Функции
+
 //Сообщение об ошибке ввода
 const errorMsg = (elem, msg) => {
     const err = document.createElement('span');
@@ -39,8 +41,15 @@ const validText = (el) => {
         el = el.currentTarget;
     }
     if (!el.value) {
-        errorMsg(el, 'Заполните поле')
+        errorMsg(el, 'Заполните поле');
+        return false;
     }
+    if (el.type = 'number' && el.value < el.min) {
+        errorMsg(el, 'Введите корректное число');
+        return false;
+    }
+    return true;
+    ;
 }
 //Проверка на ВИП статус
 const validRadio = (el) => {
@@ -48,19 +57,26 @@ const validRadio = (el) => {
         removeMsg();
         el = el.currentTarget;
     }
-    el.value === '' ?
-        errorMsg(el[0].parentElement, 'Вы не выбрали тип размещения') :
-        el.value === '3' ?
-            errorMsg(el.parentElement || el[0].parentElement, 'У вас нет VIP статуса') :
-            null;
+    if (el.value === '') {
+        errorMsg(el[0].parentElement, 'Вы не выбрали тип размещения');
+        return false;
+    } else if (el.value === '3') {
+        errorMsg(el.parentElement || el[0].parentElement, 'У вас нет VIP статуса');
+        return false;
+    }
+    return true;
 }
 //Проверка на выбор чекбокса
-const isEmptyChek = (el) => {
+const isEmptyCheck = (el) => {
     if (el.currentTarget) {
         removeMsg();
         el = el.currentTarget;
     }
-    !el.checked ? errorMsg(el, 'Разрешите отзывы') : null;
+    if (!el.checked) {
+        errorMsg(el, 'Разрешите отзывы');
+        return false;
+    }
+    return true;
 }
 //Проверка на выбор элемента списка
 const validSelect = (el) => {
@@ -68,26 +84,32 @@ const validSelect = (el) => {
         removeMsg();
         el = el.target;
     }
-    el.value === '3' ? errorMsg(el, 'Уже поздно думать о здоровье') : null;
+    if (el.value === '3') {
+        errorMsg(el, 'Уже поздно думать о здоровье');
+        return false;
+    }
+    return true;
 }
 //Проерка всей формы
 const validForm = (el) => {
-    el.preventDefault();
     removeMsg();
-    validText(form.elements.developer);
-    validText(form.elements.title);
-    validText(form.elements.site);
-    validText(form.elements.date);
-    validText(form.elements.visitors);
-    validText(form.elements.email);
-    validText(form.elements.description);
-    isEmptyChek(form.elements.votes);
-    validSelect(form.elements.category);
-    validRadio(form.elements.payment);
-    document.querySelector('.err').previousElementSibling.focus();
+    if (validText(form.elements.developer) +
+        validText(form.elements.title) +
+        validText(form.elements.site) +
+        validText(form.elements.date) +
+        validText(form.elements.visitors) +
+        validText(form.elements.email) +
+        validText(form.elements.description) +
+        isEmptyCheck(form.elements.votes) +
+        validSelect(form.elements.category) +
+        validRadio(form.elements.payment) < 10) {
+        el.preventDefault();
+        document.querySelector('.err').previousElementSibling.focus();
+    }
 }
 
 //Слушатели событий
+
 //выход из полей с текстом
 inputText.forEach((input) => {
     input.addEventListener('blur', validText)
@@ -97,7 +119,7 @@ inputRadio.forEach((input) => {
     input.addEventListener('change', validRadio)
 })
 //изменение чекбокса
-inputCheckbox.addEventListener('change', isEmptyChek);
+inputCheckbox.addEventListener('change', isEmptyCheck);
 //изменение списка
 select.addEventListener('change', validSelect);
 //отправка формы
