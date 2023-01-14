@@ -1,97 +1,104 @@
-let formCount = 1;
+//Переменные
+//Вся форма
+const form = document.forms.formSite;
+//поля с текстом
+const inputText = document.querySelectorAll(
+    'input[ type="text"],' +
+    'input[ type="number"],' +
+    'input[ type="url"], ' +
+    'input[ type="date"], ' +
+    'input[ type="email"], ' +
+    'textarea'
+);
+//радиокнопки
+const inputRadio = document.querySelectorAll('input[ type="radio"]');
+//чекбокс
+const inputCheckbox = document.querySelector('input[ type="checkbox"]');
+//список
+const select = document.querySelector('select');
 
-const renderForm = formArr => {
-    const form = document.createElement('form');
-    form.action = 'http://fe.it-academy.by/TestForm.php';
-    form.name = `form${formCount++}`;
-    form.method="post";
-    document.getElementById('app').appendChild(form);
-    const hr = document.createElement('hr');
-    form.appendChild(hr);
-    formArr.forEach(formElem => {
-        if (formElem.label) {
-            const label = document.createElement('label');
-            label.textContent = formElem.label;
-            label.classList.add('label');
-            form.appendChild(label);
-        }
-        const input = formElem.kind === 'combo' ?
-            document.createElement('select') :
-            document.createElement('input');
-        if (formElem.name) {
-            input.name = formElem.name;
-        }
-        switch (formElem.kind) {
-            case 'longtext':
-                form.appendChild(input);
-                input.type = 'text';
-                input.classList.add('input--longtext');
-                break;
-            case 'shorttext':
-                form.appendChild(input);
-                input.type = 'text';
-                input.classList.add('input--shorttext');
-                break;
-            case 'number':
-                form.appendChild(input);
-                input.type = 'number';
-                input.classList.add('input--number');
-                break;
-            case 'combo':
-                form.appendChild(input);
-                formElem.variants.forEach(variant => {
-                    const option = document.createElement('option');
-                    option.value = variant.value;
-                    option.textContent = variant.text;
-                    input.appendChild(option);
-                });
-                break;
-            case 'radio':
-                formElem.variants.forEach(variant => {
-                    const radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = formElem.name;
-                    radio.value = variant.value;
-                    form.appendChild(radio);
-                    const label = document.createElement('label');
-                    label.textContent = variant.text;
-                    form.appendChild(label);
-                });
-                break;
-            case 'check':
-                input.type = 'checkbox';
-                form.appendChild(input);
-                break;
-            case 'memo':
-                const textarea = document.createElement('textarea');
-                textarea.name = formElem.name;
-                textarea.classList.add('textarea');
-                form.appendChild(textarea);
-                break;
-            case 'submit':
-                form.appendChild(input);
-                input.type = 'submit';
-                input.value = formElem.caption;
-                break;
-            case 'email':
-                form.appendChild(input);
-                input.type = 'email';
-                 break;
-            case 'date':
-                form.appendChild(input);
-                input.type = 'date';
-                break;
-            case 'url':
-                form.appendChild(input);
-                input.type = 'url';
-                break;
-            default:
-                break;
-        }
-        const br = document.createElement('br');
-        form.appendChild(br);
+//Функции
+//Сообщение об ошибке ввода
+const errorMsg = (elem, msg) => {
+    const err = document.createElement('span');
+    err.classList.add('err');
+    err.textContent = msg;
+    elem.parentElement.append(err);
+}
+//Удаление сообщений об ошибках
+const removeMsg = () => {
+    const errs = document.querySelectorAll('.err');
+    errs.forEach((err) => {
+        err ? err.remove() : null;
     });
 }
+//Проверка на пустое проле
+const validText = (el) => {
+    if (el.currentTarget) {
+        removeMsg();
+        el = el.currentTarget;
+    }
+    if (!el.value) {
+        errorMsg(el, 'Заполните поле')
+    }
+}
+//Проверка на ВИП статус
+const validRadio = (el) => {
+    if (el.currentTarget) {
+        removeMsg();
+        el = el.currentTarget;
+    }
+    el.value === '' ?
+        errorMsg(el[0].parentElement, 'Вы не выбрали тип размещения') :
+        el.value === '3' ?
+            errorMsg(el.parentElement || el[0].parentElement, 'У вас нет VIP статуса') :
+            null;
+}
+//Проверка на выбор чекбокса
+const isEmptyChek = (el) => {
+    if (el.currentTarget) {
+        removeMsg();
+        el = el.currentTarget;
+    }
+    !el.checked ? errorMsg(el, 'Разрешите отзывы') : null;
+}
+//Проверка на выбор элемента списка
+const validSelect = (el) => {
+    if (el.target) {
+        removeMsg();
+        el = el.target;
+    }
+    el.value === '3' ? errorMsg(el, 'Уже поздно думать о здоровье') : null;
+}
+//Проерка всей формы
+const validForm = (el) => {
+    el.preventDefault();
+    removeMsg();
+    validText(form.elements.developer);
+    validText(form.elements.title);
+    validText(form.elements.site);
+    validText(form.elements.date);
+    validText(form.elements.visitors);
+    validText(form.elements.email);
+    validText(form.elements.description);
+    isEmptyChek(form.elements.votes);
+    validSelect(form.elements.category);
+    validRadio(form.elements.payment);
+    document.querySelector('.err').previousElementSibling.focus();
+}
 
-renderForm(formDef1);
-renderForm(formDef2);
+//Слушатели событий
+//выход из полей с текстом
+inputText.forEach((input) => {
+    input.addEventListener('blur', validText)
+})
+//изменение радиокнопки
+inputRadio.forEach((input) => {
+    input.addEventListener('change', validRadio)
+})
+//изменение чекбокса
+inputCheckbox.addEventListener('change', isEmptyChek);
+//изменение списка
+select.addEventListener('change', validSelect);
+//отправка формы
+form.addEventListener("submit", validForm);

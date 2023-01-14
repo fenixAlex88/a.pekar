@@ -81,3 +81,4 @@ const renderForm = formArr => {
 }
 
 renderForm(formDef1);
+renderForm(formDef2);

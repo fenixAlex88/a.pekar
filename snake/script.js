@@ -52,7 +52,7 @@ const render = () => {
 
     if (snakeX === apple.x && snakeY === apple.y) {
         score++;
-        speed -= 10;
+        speed *= 0.9;
         apple.x = Math.floor(Math.random() * 18) * box;
         apple.y = Math.floor(Math.random() * 18) * box;
     } else {
@@ -89,4 +89,4 @@ function play() {
     !endGame ? setTimeout(play, speed) : null;
 }
 
-setTimeout(play, 1000);
+play();

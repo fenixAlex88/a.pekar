@@ -1,16 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <title>Dyn_form</title>
 </head>
 <body>
-<div id='app'></div>
-<script src="data.js"></script>
+<p>Для внесения вашего сайта в каталог, заполните форму:</p>
+<form action="https://fe.it-academy.by/TestForm.php" method="POST" name="formSite">
+    <div>
+        <label for="dev">Разработчики:</label>
+        <input type="text" name="developer" id="dev">
+    </div>
+
+    <div>
+        <label for="title">Название сайта:</label>
+        <input type="text" name="title" id="title">
+    </div>
+
+    <div>
+        <label for="site">URL сайта:</label>
+        <input type="url" name="site" id="site">
+    </div>
+
+    <div>
+        <label for="date">Дата запуска сайта:</label>
+        <input type="date" name="date" id="date">
+    </div>
+
+    <div>
+        <label for="visitor">Посетителей в сутки:</label>
+        <input type="number" name="visitors" id="visitor">
+    </div>
+
+    <div>
+        <label for="email">E-mail для связи:</label>
+        <input type="email" name="email" id="email">
+    </div>
+
+    <div>
+        <label for="category">Рубрика каталога:</label>
+        <select name="category" id="category">
+            <option value="1">бытовая техника</option>
+            <option value="2">домашний уют</option>
+            <option value="3">здоровье</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Размещение:</label>
+        <label><input type="radio" name="payment" value="1" id="locFree">бесплатное</label>
+        <label><input type="radio" name="payment" value="2" id="locPaid">платное</label>
+        <label><input type="radio" name="payment" value="3" id="locVip">VIP</label>
+    </div>
+
+
+    <div>
+        <label for="votes">Разрешить отзывы:</label>
+        <input type="checkbox" name="votes" id="votes"></div>
+
+    <div>
+        <label for="description">Описание сайта:</label><br>
+        <textarea name="description" id="description"></textarea>
+    </div>
+
+    <div>
+        <input type="submit" value="Опубликовать">
+    </div>
+</form>
+
 <script src="app.js"></script>
 </body>
 </html>
