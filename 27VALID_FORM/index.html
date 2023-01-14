@@ -11,37 +11,37 @@
 <p>Для внесения вашего сайта в каталог, заполните форму:</p>
 <form action="https://fe.it-academy.by/TestForm.php" method="POST" name="formSite">
     <div>
-        <label for="dev">Разработчики:</label>
-        <input type="text" name="developer" id="dev">
+        <label class="label" for="dev">Разработчики:</label>
+        <input type="text" class="input--longtext" name="developer" id="dev">
     </div>
 
     <div>
-        <label for="title">Название сайта:</label>
-        <input type="text" name="title" id="title">
+        <label class="label" for="title">Название сайта:</label>
+        <input type="text" class="input--longtext" name="title" id="title">
     </div>
 
     <div>
-        <label for="site">URL сайта:</label>
-        <input type="url" name="site" id="site">
+        <label class="label" for="site">URL сайта:</label>
+        <input type="url" class="input--longtext" name="site" id="site">
     </div>
 
     <div>
-        <label for="date">Дата запуска сайта:</label>
-        <input type="date" name="date" id="date">
+        <label class="label" for="date">Дата запуска сайта:</label>
+        <input type="date" class="input--shorttext" name="date" id="date">
     </div>
 
     <div>
-        <label for="visitor">Посетителей в сутки:</label>
-        <input type="number" min="0" name="visitors" id="visitor">
+        <label class="label" for="visitor">Посетителей в сутки:</label>
+        <input type="number" class="input--number" min="0" name="visitors" id="visitor">
     </div>
 
     <div>
-        <label for="email">E-mail для связи:</label>
-        <input type="email" name="email" id="email">
+        <label class="label" for="email">E-mail для связи:</label>
+        <input type="email" class="input--longtext" name="email" id="email">
     </div>
 
     <div>
-        <label for="category">Рубрика каталога:</label>
+        <label class="label" for="category">Рубрика каталога:</label>
         <select name="category" id="category">
             <option value="1">бытовая техника</option>
             <option value="2">домашний уют</option>
@@ -50,7 +50,7 @@
     </div>
 
     <div>
-        <label>Размещение:</label>
+        <label class="label">Размещение:</label>
         <label><input type="radio" name="payment" value="1" id="locFree">бесплатное</label>
         <label><input type="radio" name="payment" value="2" id="locPaid">платное</label>
         <label><input type="radio" name="payment" value="3" id="locVip">VIP</label>
@@ -58,16 +58,16 @@
 
 
     <div>
-        <label for="votes">Разрешить отзывы:</label>
+        <label class="label" for="votes">Разрешить отзывы:</label>
         <input type="checkbox" name="votes" id="votes"></div>
 
     <div>
-        <label for="description">Описание сайта:</label><br>
-        <textarea name="description" id="description"></textarea>
+        <label class="label" for="description">Описание сайта:</label><br>
+        <textarea class="textarea" name="description" id="description"></textarea>
     </div>
 
     <div>
-        <input type="submit" value="Опубликовать">
+        <input type="submit" value="Опубликовать" class="btn">
     </div>
 </form>
 
