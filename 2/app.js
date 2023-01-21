@@ -50,28 +50,30 @@ let cars = [
 ];
 let carBasket = [];
 
-const render = (container, arr) => {
-    const wrapper = document.getElementById(container);
+const render = () => {
+    console.log('render');
+    const wrapper = document.getElementById('app');
     wrapper.innerHTML = '';
-    arr.forEach((car) => {
+    cars.forEach((car) => {
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('card', 'text-bg-dark');
         card.style = 'width: 18rem;';
         const img = document.createElement('img');
         img.src = `${car.imageURL}`;
         img.classList.add("card-img-top");
         card.appendChild(img);
         const cardBody = document.createElement('div');
+        cardBody.style.margin = '15px';
         cardBody.dataset.id = `${car.id}`;
         card.appendChild(cardBody);
         const h5 = document.createElement('h5');
         h5.classList.add('card-title');
         h5.textContent = `${car.brand} ${car.model}`;
         cardBody.appendChild(h5);
-        const p = document.createElement('p');
-        p.classList.add('card-text');
-        p.textContent = `${car.description}`;
-        cardBody.appendChild(p);
+        const discription = document.createElement('p');
+        discription.classList.add('card-text');
+        discription.textContent = `${car.description}`;
+        cardBody.appendChild(discription);
         const btnBuy = document.createElement('button');
         btnBuy.classList.add('btn', 'btn-primary');
         btnBuy.textContent = `Buy ${car.price}`;
@@ -84,49 +86,115 @@ const render = (container, arr) => {
         cardBody.appendChild(btnDel);
         wrapper.appendChild(card);
     })
-}
+    renderBasketNote();
 
+};
+const renderBasketNote = () => {
+    const basketCount = carBasket.reduce((count, car) => count + car.count, 0) || 0;
+    const basketSumm = carBasket.reduce((sum, car) => sum + car.price * car.count, 0) || 0;
+    document.getElementById('basketCount').textContent = `В корзине ${basketCount} товаров`;
+    document.getElementById('basketSumm').textContent = `На сумму ${basketSumm}`;
+};
+
+const renderBasket = () => {
+    const wrapper = document.getElementById('app');
+    wrapper.innerHTML = '';
+    if (carBasket.length > 0) {
+        carBasket.forEach((car) => {
+            const card = document.createElement('div');
+            card.classList.add('card', 'text-bg-dark');
+            card.style = 'width: 18rem;';
+            const img = document.createElement('img');
+            img.src = `${car.imageURL}`;
+            img.classList.add("card-img-top");
+            card.appendChild(img);
+            const cardBody = document.createElement('div');
+            cardBody.style.margin = '15px';
+            cardBody.dataset.id = `${car.id}`;
+            card.appendChild(cardBody);
+            const h5 = document.createElement('h5');
+            h5.classList.add('card-title');
+            h5.textContent = `${car.brand} ${car.model}`;
+            cardBody.appendChild(h5);
+            cardBody.appendChild(document.createElement('hr'));
+            const disc = document.createElement('p');
+            disc.textContent = `${car.count} шт. по ${car.price}`;
+            cardBody.appendChild(disc);
+            wrapper.appendChild(card);
+        })
+    } else {
+        const emptyBasket = document.createElement('h2');
+        emptyBasket.textContent = 'В вашей корзине нет товаров';
+        emptyBasket.classList.add('text-white');
+        wrapper.appendChild(emptyBasket);
+    }
+};
+
+const renderBasketBtn = document.getElementById('renderBasketBtn');
+const renderMainBtn = document.getElementById('renderMainBtn');
+
+renderBasketBtn.addEventListener('click', () => {
+    renderBasket();
+    renderBasketBtn.classList.add('active');
+    renderMainBtn.classList.remove('active');
+});
+
+renderMainBtn.addEventListener('click', () => {
+    render();
+    renderMainBtn.classList.add('active');
+    renderBasketBtn.classList.remove('active');
+});
 
 const search = () => {
     const str = document.getElementById('search').value;
     cars = cars.filter(car => (car.brand.toLowerCase() === str.toLowerCase()) || (car.model.toLowerCase() === str.toLowerCase()));
-    render('app', cars);
+    render();
 };
 
 const sortUp = () => {
     cars.sort((a, b) => a.price - b.price);
-    render('app', cars);
+    render();
 }
 
 const sortDown = () => {
     cars.sort((a, b) => b.price - a.price);
-    render('app', cars);
+    render();
 }
+
+document.getElementById("addCarBtn").addEventListener("click", () => {
+    document.getElementsByName("newCar")[0].classList.toggle('hide');
+})
 
 const addNewCar = () => {
     cars.push({
-        id: cars.length + 1,
+        id: Date.now(),
         brand: document.newCar.brand.value,
         model: document.newCar.model.value,
         imageURL: document.newCar.imageURL.value,
         description: document.newCar.description.value,
         price: document.newCar.price.value
     });
-    overlay.classList.remove('is-show');
-    document.querySelector('.js-modal[data-modal="addCar"]').classList.remove('is-show');
-    render('app', cars);
+    render();
+    document.getElementsByName("newCar")[0].classList.toggle('hide');
 }
-const findById = (id) => cars.map((car) => car.id).indexOf(id);
+const findById = (arr, id) => arr.map((car) => car.id).indexOf(id);
 
 const delCar = (e) => {
-    cars.splice(findById(parseInt(e.currentTarget.parentElement.dataset.id)), 1);
-    render('app',cars);
+    cars.splice(findById(cars, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
+    render();
 }
-
 const addBasket = (e) => {
-    const car = cars.filter((car) => car.id === (parseInt(e.currentTarget.parentElement.dataset.id)));
-    carBasket.push(...car);
-}
+    const id = parseInt(e.currentTarget.parentElement.dataset.id);
+    let car = cars.filter((car) => car.id === id);
+    if (carBasket.filter((car) => car.id === id).length > 0) {
+        carBasket[findById(carBasket, id)].count++;
+    } else {
+        carBasket.push(...car);
+        carBasket[findById(carBasket, id)].count = 1;
+    }
+    ;
 
-render('app', cars);
+    renderBasketNote();
+};
 
+render();

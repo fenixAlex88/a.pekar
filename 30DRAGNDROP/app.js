@@ -6,6 +6,8 @@ const imgs = document.querySelectorAll('img');
 //и отменяем стандартный драгндроп браузера
 imgs.forEach((img) => {
     img.addEventListener('mousedown', moove);
+    img.style.position = 'absolute';
+    img.style.zIndex = 1000;
     img.ondragstart = function () {
         return false;
     };
@@ -18,8 +20,7 @@ function moove(e) {
         //находим сдвиг координат от точки нажатия
         const shiftX = e.clientX - img.getBoundingClientRect().left;
         const shiftY = e.clientY - img.getBoundingClientRect().top;
-        img.style.position = 'absolute';
-        img.style.zIndex = 1000;
+
         img.style.cursor = 'grabbing';
         document.body.append(img);
         moveAt(e.pageX, e.pageY);
