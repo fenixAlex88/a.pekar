@@ -47,11 +47,13 @@ let cars = [
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat perspiciatis accusamus, similique nam quae est ex aspernatur officia cumque molestias.',
         price: 150000
     }
-]
+];
+let carBasket = [];
 
-const render = () => {
-    document.getElementById('app').innerHTML = '';
-    cars.forEach((car) => {
+const render = (container, arr) => {
+    const wrapper = document.getElementById(container);
+    wrapper.innerHTML = '';
+    arr.forEach((car) => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.style = 'width: 18rem;';
@@ -60,6 +62,7 @@ const render = () => {
         img.classList.add("card-img-top");
         card.appendChild(img);
         const cardBody = document.createElement('div');
+        cardBody.dataset.id = `${car.id}`;
         card.appendChild(cardBody);
         const h5 = document.createElement('h5');
         h5.classList.add('card-title');
@@ -72,28 +75,32 @@ const render = () => {
         const btnBuy = document.createElement('button');
         btnBuy.classList.add('btn', 'btn-primary');
         btnBuy.textContent = `Buy ${car.price}`;
+        btnBuy.addEventListener('click', addBasket)
         cardBody.appendChild(btnBuy);
         const btnDel = document.createElement('button');
         btnDel.classList.add('btn', 'btn-danger');
         btnDel.textContent = `Delete`;
-        btnDel.dataset.id = `${car.brand}`;
+        btnDel.addEventListener('click', delCar);
         cardBody.appendChild(btnDel);
-        document.getElementById('app').appendChild(card);
+        wrapper.appendChild(card);
     })
 }
+
 
 const search = () => {
     const str = document.getElementById('search').value;
     cars = cars.filter(car => (car.brand.toLowerCase() === str.toLowerCase()) || (car.model.toLowerCase() === str.toLowerCase()));
-    render();
+    render('app', cars);
 };
 
 const sortUp = () => {
-    render(cars.sort((a, b) => a.price - b.price))
+    cars.sort((a, b) => a.price - b.price);
+    render('app', cars);
 }
 
 const sortDown = () => {
-    render(cars.sort((a, b) => b.price - a.price));
+    cars.sort((a, b) => b.price - a.price);
+    render('app', cars);
 }
 
 const addNewCar = () => {
@@ -105,5 +112,24 @@ const addNewCar = () => {
         description: document.newCar.description.value,
         price: document.newCar.price.value
     });
-    render();
+    overlay.classList.remove('is-show');
+    document.querySelector('.js-modal[data-modal="addCar"]').classList.remove('is-show');
+    render('app', cars);
 }
+const findById = (id) => cars.map((car) => car.id).indexOf(id);
+
+const delCar = (e) => {
+    cars.splice(findById(parseInt(e.currentTarget.parentElement.dataset.id)), 1);
+    render('app',cars);
+}
+
+const addBasket = (e) => {
+    console.log(cars.filter((car) => car.id === (parseInt(e.currentTarget.parentElement.dataset.id))));
+    const car = cars.filter((car) => car.id === (parseInt(e.currentTarget.parentElement.dataset.id)));
+    carBasket.push(...car);
+    console.log(carBasket);
+    render('basket', carBasket);
+}
+
+render('app', cars);
+
