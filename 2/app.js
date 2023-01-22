@@ -1,3 +1,4 @@
+//необходимые данные
 let cars = [
     {
         id: 1,
@@ -50,6 +51,7 @@ let cars = [
 ];
 let carBasket = [];
 
+//функция отрисовки главной страницы
 const render = () => {
     console.log('render');
     const wrapper = document.getElementById('app');
@@ -60,7 +62,7 @@ const render = () => {
         card.style = 'width: 18rem;';
         const img = document.createElement('img');
         img.src = `${car.imageURL}`;
-        img.classList.add("card-img-top");
+        img.classList.add("card-img-top", 'canBuy');
         card.appendChild(img);
         const cardBody = document.createElement('div');
         cardBody.style.margin = '15px';
@@ -76,7 +78,7 @@ const render = () => {
         cardBody.appendChild(discription);
         const btnBuy = document.createElement('button');
         btnBuy.classList.add('btn', 'btn-primary');
-        btnBuy.textContent = `Buy ${car.price}`;
+        btnBuy.textContent = `Buy ${priceFormat(car.price)}`;
         btnBuy.addEventListener('click', addBasket)
         cardBody.appendChild(btnBuy);
         const btnDel = document.createElement('button');
@@ -89,13 +91,14 @@ const render = () => {
     renderBasketNote();
 
 };
+//функция отрисовки записи о состоянии корзины
 const renderBasketNote = () => {
     const basketCount = carBasket.reduce((count, car) => count + car.count, 0) || 0;
     const basketSumm = carBasket.reduce((sum, car) => sum + car.price * car.count, 0) || 0;
     document.getElementById('basketCount').textContent = `В корзине ${basketCount} товаров`;
-    document.getElementById('basketSumm').textContent = `На сумму ${basketSumm}`;
+    document.getElementById('basketSumm').textContent = `На сумму ${priceFormat(basketSumm)}`;
 };
-
+//функция отрисовки корзины
 const renderBasket = () => {
     const wrapper = document.getElementById('app');
     wrapper.innerHTML = '';
@@ -118,8 +121,13 @@ const renderBasket = () => {
             cardBody.appendChild(h5);
             cardBody.appendChild(document.createElement('hr'));
             const disc = document.createElement('p');
-            disc.textContent = `${car.count} шт. по ${car.price}`;
+            disc.textContent = `${car.count} шт. по ${priceFormat(car.price)}`;
             cardBody.appendChild(disc);
+            const btnDel = document.createElement('button');
+            btnDel.classList.add('btn', 'btn-danger');
+            btnDel.textContent = 'Delete from basket';
+            btnDel.addEventListener('click', delCarBasket);
+            cardBody.appendChild(btnDel);
             wrapper.appendChild(card);
         })
     } else {
@@ -130,41 +138,22 @@ const renderBasket = () => {
     }
 };
 
-const renderBasketBtn = document.getElementById('renderBasketBtn');
-const renderMainBtn = document.getElementById('renderMainBtn');
-
-renderBasketBtn.addEventListener('click', () => {
-    renderBasket();
-    renderBasketBtn.classList.add('active');
-    renderMainBtn.classList.remove('active');
-});
-
-renderMainBtn.addEventListener('click', () => {
-    render();
-    renderMainBtn.classList.add('active');
-    renderBasketBtn.classList.remove('active');
-});
-
 const search = () => {
     const str = document.getElementById('search').value;
     cars = cars.filter(car => (car.brand.toLowerCase() === str.toLowerCase()) || (car.model.toLowerCase() === str.toLowerCase()));
     render();
 };
-
+//сортировка по возрастанию цены
 const sortUp = () => {
     cars.sort((a, b) => a.price - b.price);
     render();
-}
-
+};
+//сортировка по убыванию цены
 const sortDown = () => {
     cars.sort((a, b) => b.price - a.price);
     render();
-}
-
-document.getElementById("addCarBtn").addEventListener("click", () => {
-    document.getElementsByName("newCar")[0].classList.toggle('hide');
-})
-
+};
+//добавление нового объявления
 const addNewCar = () => {
     cars.push({
         id: Date.now(),
@@ -176,13 +165,15 @@ const addNewCar = () => {
     });
     render();
     document.getElementsByName("newCar")[0].classList.toggle('hide');
-}
+};
+//поиск индекса элемента в массиве arr по id
 const findById = (arr, id) => arr.map((car) => car.id).indexOf(id);
-
+//удаление объявления
 const delCar = (e) => {
     cars.splice(findById(cars, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
     render();
-}
+};
+//добавление в корзину
 const addBasket = (e) => {
     const id = parseInt(e.currentTarget.parentElement.dataset.id);
     let car = cars.filter((car) => car.id === id);
@@ -192,9 +183,41 @@ const addBasket = (e) => {
         carBasket.push(...car);
         carBasket[findById(carBasket, id)].count = 1;
     }
-    ;
-
     renderBasketNote();
 };
+//удаление из корзины
+const delCarBasket = (e) => {
+    carBasket.splice(findById(carBasket, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
+    renderBasket();
+    renderBasketNote();
+};
+//формат записи в USD
+const priceFormat = (price) => price.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
 
+
+//выборка объектов
+const renderBasketBtn = document.getElementById('renderBasketBtn');
+const renderMainBtn = document.getElementById('renderMainBtn');
+
+
+//слушатели событий
+renderBasketBtn.addEventListener('click', () => {
+    renderBasket();
+    renderBasketBtn.classList.add('active');
+    renderMainBtn.classList.remove('active');
+});
+renderMainBtn.addEventListener('click', () => {
+    render();
+    renderMainBtn.classList.add('active');
+    renderBasketBtn.classList.remove('active');
+});
+document.getElementById("addCarBtn").addEventListener("click", () => {
+    document.getElementsByName("newCar")[0].classList.toggle('hide');
+})
+
+
+//вызов первоначального рендера
 render();
