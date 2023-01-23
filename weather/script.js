@@ -17,6 +17,7 @@ const fetchData = async () => {
                 .then((response) => {
                     return response.json();
                 });
+                console.log(data);
         const {
             current: {
                 feelslike,
@@ -69,7 +70,7 @@ const fetchData = async () => {
                 },
                 uvIndex: {
                     title: 'uv index',
-                    value: `${uvIndex}/13`,
+                    value: uvIndex>10?'extrime':uvIndex>7?'Very High':uvIndex>5?'High':uvIndex>2?'Moderate':'Low',
                     icon: 'uv-index.png'
                 }
             }
