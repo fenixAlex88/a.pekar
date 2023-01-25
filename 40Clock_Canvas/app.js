@@ -37,42 +37,51 @@ function clocksRun() {
     }
 
     //Рисуем секунды
-    const secondsDeg = 6 * time.getSeconds() - 6;
+    const secondsDeg = 6 * time.getSeconds() * Math.PI / 180;
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(secondsDeg);
+    ctx.translate(-radius, -radius);
     ctx.beginPath();
     ctx.strokeStyle = "rgb(110, 33, 33)";
     ctx.lineWidth = 4;
     ctx.lineCap = 'round';
-    ctx.moveTo(radius - 15 * Math.cos(Math.PI / 2 - secondsDeg * (Math.PI / 180)),
-        radius + 15 * Math.sin(Math.PI / 2 - secondsDeg * (Math.PI / 180)));
-    ctx.lineTo(radius + 130 * Math.cos(Math.PI / 2 - secondsDeg * (Math.PI / 180)),
-        radius - 130 * Math.sin(Math.PI / 2 - secondsDeg * (Math.PI / 180)));
+    ctx.moveTo(200, 215);
+    ctx.lineTo(200, 80);
     ctx.stroke();
     ctx.closePath();
+    ctx.restore();
 
     //Рисуем минуты
-    const minutesDeg = 6 * (time.getMinutes() + (1 / 60) * time.getSeconds());
+    const minutesDeg = (6 * (time.getMinutes() + (1 / 60) * time.getSeconds())) * (Math.PI / 180);
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(minutesDeg);
+    ctx.translate(-radius, -radius);
     ctx.beginPath();
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = 6;
     ctx.lineCap = 'round';
-    ctx.moveTo(radius - 15 * Math.cos(Math.PI / 2 - minutesDeg * (Math.PI / 180)),
-        radius + 15 * Math.sin(Math.PI / 2 - minutesDeg * (Math.PI / 180)));
-    ctx.lineTo(radius + 100 * Math.cos(Math.PI / 2 - minutesDeg * (Math.PI / 180)),
-        radius - 100 * Math.sin(Math.PI / 2 - minutesDeg * (Math.PI / 180)));
+    ctx.moveTo(200, 215);
+    ctx.lineTo(200, 110);
     ctx.stroke();
     ctx.closePath();
+    ctx.restore();
 
     //Рисуем часы
-    const hoursDeg = 30 * (time.getHours() + (1 / 60) * time.getMinutes());
+    const hoursDeg = (30 * (time.getHours() + (1 / 60) * time.getMinutes())) * (Math.PI / 180);
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(hoursDeg);
+    ctx.translate(-radius, -radius);
     ctx.beginPath();
     ctx.lineWidth = 10;
     ctx.lineCap = 'round';
-    ctx.moveTo(radius - 15 * Math.cos(Math.PI / 2 - hoursDeg * (Math.PI / 180)),
-        radius + 15 * Math.sin(Math.PI / 2 - hoursDeg * (Math.PI / 180)));
-    ctx.lineTo(radius + 75 * Math.cos(Math.PI / 2 - hoursDeg * (Math.PI / 180)),
-        radius - 75 * Math.sin(Math.PI / 2 - hoursDeg * (Math.PI / 180)));
+    ctx.moveTo(200, 215);
+    ctx.lineTo(200, 145);
     ctx.stroke();
     ctx.closePath();
+    ctx.restore();
     //перезапускаем таймаут
     setTimeout(clocksRun, 1000);
 }
