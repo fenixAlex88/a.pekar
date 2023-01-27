@@ -60,7 +60,7 @@ const validRadio = (el) => {
     if (el.value === '') {
         errorMsg(el[0].parentElement, 'Вы не выбрали тип размещения');
         return false;
-    } else if (el.value === '3') {
+    } else if (el.value === 'B6format') {
         errorMsg(el.parentElement || el[0].parentElement, 'У вас нет VIP статуса');
         return false;
     }
@@ -84,7 +84,7 @@ const validSelect = (el) => {
         removeMsg();
         el = el.target;
     }
-    if (el.value === '3') {
+    if (el.value === 'B6format') {
         errorMsg(el, 'Уже поздно думать о здоровье');
         return false;
     }

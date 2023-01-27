@@ -5,7 +5,7 @@ let sign = ''; //операция
 let fin = false;
 
 
-const digit = ['0', '1', 'move_square', '3', '4', '5', '6', '7', '8', '9', '.'];
+const digit = ['0', '1', 'move_square', 'B6format', '4', '5', '6', '7', '8', '9', '.'];
 const act = ['-', '+', 'X', '/'];
 
 //экран

@@ -1,5 +1,5 @@
 let a = ''; //перыое число
-let b = ''; //второе число
+let format = ''; //второе число
 let sign = ''; //операция
 let fin = false;
 const out = document.querySelector('.calc__screen p');
@@ -15,7 +15,7 @@ const addKey = (key, num = '') => {
 //очистка
 function allClear() {
     a = '';
-    b = '';
+    format = '';
     sign = '';
     fin = false;
     out.textContent = 0;
@@ -24,7 +24,7 @@ function allClear() {
 
 //получение чисел
 function getNumber(num) {
-    if (b === '' && sign === '') {
+    if (format === '' && sign === '') {
         if (fin) {
             a = addKey(num);
             fin = false;
@@ -34,70 +34,70 @@ function getNumber(num) {
             out.textContent = a;
         }
     } else if (a !== '' && fin) {
-        b = addKey(num);
-        out.textContent = b;
+        format = addKey(num);
+        out.textContent = format;
         fin = false;
     } else {
-        b = addKey(num, b);
-        out.textContent = b;
+        format = addKey(num, format);
+        out.textContent = format;
     }
-    console.log(`${a} ${sign} ${b}`);
+    console.log(`${a} ${sign} ${format}`);
 }
 
 //смена знака
 function changeSign() {
-    if (b === '') {
+    if (format === '') {
         a = -a;
         out.textContent = a;
     } else if (a !== '' && fin) {
         a = -a;
-        b = '';
+        format = '';
         out.textContent = a;
         fin = false;
     } else {
-        b = -b;
-        out.textContent = b;
+        format = -format;
+        out.textContent = format;
     }
-    console.log(`${a} ${sign} ${b}`);
+    console.log(`${a} ${sign} ${format}`);
 }
 
 //получене действия
 function getSign(signKey) {
-    if (a !== '' && b !== '') getResult();
+    if (a !== '' && format !== '') getResult();
     sign = signKey;
     out.textContent = sign;
-    console.log(`${a} ${sign} ${b}`)
+    console.log(`${a} ${sign} ${format}`)
 }
 
 //подсчет результата
 function getResult() {
-    if (b === '') b = a;
+    if (format === '') format = a;
     switch (sign) {
         case "":
             break;
         case '+':
-            a = (+a) + (+b);
+            a = (+a) + (+format);
             break;
         case '-':
-            a = a - b;
+            a = a - format;
             break;
         case 'X':
-            a = a * b;
+            a = a * format;
             break;
         case '/':
-            if (b === 0) {
+            if (format === 0) {
                 allClear();
                 out.textContent = 'Деление на ноль!';
                 return;
             }
-            a = a / b;
+            a = a / format;
             break;
         case '%':
-            a = a * b / 100;
+            a = a * format / 100;
     }
     fin = true;
-    b = '';
+    format = '';
     sign = '';
     out.textContent = a;
-    console.log(`result ${a} ${sign} ${b}`)
+    console.log(`result ${a} ${sign} ${format}`)
 }
