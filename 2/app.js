@@ -49,7 +49,7 @@ let cars = [
         price: 150000
     }
 ];
-let carBasket = [];
+const carBasket = localStorage.carBasket ? JSON.parse(localStorage.carBasket) : [];
 
 //функция отрисовки главной страницы
 const render = () => {
@@ -161,7 +161,7 @@ const addNewCar = () => {
         model: document.newCar.model.value,
         imageURL: document.newCar.imageURL.value,
         description: document.newCar.description.value,
-        price: document.newCar.price.value
+        price: +document.newCar.price.value
     });
     render();
     document.getElementsByName("newCar")[0].classList.toggle('hide');
@@ -184,12 +184,14 @@ const addBasket = (e) => {
         carBasket[findById(carBasket, id)].count = 1;
     }
     renderBasketNote();
+    localStorage.carBasket = JSON.stringify(carBasket);
 };
 //удаление из корзины
 const delCarBasket = (e) => {
     carBasket.splice(findById(carBasket, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
     renderBasket();
     renderBasketNote();
+    localStorage.carBasket = JSON.stringify(carBasket);
 };
 //формат записи в USD
 const priceFormat = (price) => price.toLocaleString('en-US', {
@@ -218,6 +220,8 @@ document.getElementById("addCarBtn").addEventListener("click", () => {
     document.getElementsByName("newCar")[0].classList.toggle('hide');
 })
 
-
+const s7 = () => {
+    console.log('ку');
+}
 //вызов первоначального рендера
 render();
