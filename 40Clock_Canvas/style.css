@@ -1,0 +1,13 @@
+.bg {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    margin: 0 auto;
+    background: url(img/background.jpg);
+}
+#clock{
+    position: absolute;
+    width: 237px;
+    left: 338px;
+    top: 195px;
+}
