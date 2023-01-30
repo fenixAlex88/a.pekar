@@ -35,6 +35,7 @@
         selfPos: 250,
         enemyPos: 250
     }
+    let player;
     const socket = io.connect();
 
     const renderGame = () => {
@@ -62,18 +63,20 @@
     }
 
     canvas.addEventListener('mousemove', (e) => {
-        socket.emit('send move', {name: socket.id, pos: e.clientX - 100 > 0 ? e.clientX - 100 : 0});
+        socket.emit('send move', {name: 'player'+player, pos: e.clientX - 100 > 0 ? e.clientX - 100 : 0});
     });
 
     socket.on('add move', (data) => {
-        if (data.flag === socket.id) {
+        if (data.name === player) {
             players.selfPos = data.pos
         } else {
             players.enemyPos = data.pos
         }
 
     });
-
+    socket.on('set players', (data) =>{
+        if (data.name === socket.id) player = data.num;
+    })
     socket.on('send render', (data) =>{
         ball.x=data.x;
         ball.y=data.y;

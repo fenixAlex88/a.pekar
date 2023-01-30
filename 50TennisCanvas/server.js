@@ -15,19 +15,19 @@ const connections = [];
 
 io.on("connection", (socket) => {
     console.log('Успешное соединение');
-    players[socket.id] = 250;
     connections.push(socket);
-    console.log(players);
+    io.emit('set players', {name: socket.id, num: connections.length});
+
 
     socket.on('disconnect', (data) => {
         console.log('Отключение');
         connections.splice(connections.indexOf(socket), 1);
-        delete players[socket.id];
     });
 
     socket.on('send move', (data) => {
         players[data.name] = data.pos;
-        io.emit('add move', players);
+        io.emit('add move', {name: data.name, pos: data.pos});
+        console.log(players);
     });
 });
 
@@ -51,7 +51,7 @@ const ballMove = () => {
 
     if (ball.x >= arena.width - ball.size || ball.x <= ball.size) ball.speedX *= (-1);
     if (ball.y === arena.height - ball.size - 5
-        && (ball.x >= players[] - 10 && ball.x <= players[0].pos + 110) || ball.y === 0) {
+        && (ball.x >= players['2'] - 10 && ball.x <= players['2'] + 110) || ball.y === 0) {
         ball.speedY *= (-1)
     }
     if (ball.y <= 0 || ball.y >= arena.height) {
@@ -61,7 +61,7 @@ const ballMove = () => {
 };
 
 const sendRender = () => {
-    // ballMove();
+    ballMove();
     io.emit('send render', {x: ball.x, y: ball.y})
 }
 
