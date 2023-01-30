@@ -16,7 +16,7 @@ const connections = [];
 io.on("connection", (socket) => {
     console.log('Успешное соединение');
     connections.push(socket);
-    io.emit('set players', {name: socket.id, num: connections.length});
+  //  io.emit('set players', {name: socket.id, num: connections.length});
 
 
     socket.on('disconnect', (data) => {
@@ -24,9 +24,9 @@ io.on("connection", (socket) => {
         connections.splice(connections.indexOf(socket), 1);
     });
 
-    socket.on('send move', (data) => {
-        players[data.name] = data.pos;
-        io.emit('add move', {name: data.name, pos: data.pos});
+    socket.on('send move', ({name, pos}) => {
+      players[mame] = pos;
+        io.emit('add move', {name, pos});
         console.log(players);
     });
 });
@@ -50,9 +50,12 @@ const ballMove = () => {
     ball.y += ball.speedY;
 
     if (ball.x >= arena.width - ball.size || ball.x <= ball.size) ball.speedX *= (-1);
-    if (ball.y === arena.height - ball.size - 5
-        && (ball.x >= players['2'] - 10 && ball.x <= players['2'] + 110) || ball.y === 0) {
+    if (ball.y === arena.height - ball.size - 5 && (ball.x >= players['1'] - 10 && ball.x <= players['1'] + 110) || 
+    (ball.y === ball.size + 5 && ball.x >= players['2'] - 10 && ball.x <= players['2'] + 110)) {
         ball.speedY *= (-1)
+
+
+
     }
     if (ball.y <= 0 || ball.y >= arena.height) {
         ball.x = 250;

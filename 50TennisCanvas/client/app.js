@@ -35,7 +35,7 @@
         selfPos: 250,
         enemyPos: 250
     }
-    let player;
+    let player = localStorage.name;
     const socket = io.connect();
 
     const renderGame = () => {
@@ -67,16 +67,16 @@
     });
 
     socket.on('add move', (data) => {
-        if (data.name === player) {
+        if (data.name == '1') {
             players.selfPos = data.pos
         } else {
             players.enemyPos = data.pos
         }
 
     });
-    socket.on('set players', (data) =>{
+   /* socket.on('set players', (data) =>{
         if (data.name === socket.id) player = data.num;
-    })
+    })*/
     socket.on('send render', (data) =>{
         ball.x=data.x;
         ball.y=data.y;
