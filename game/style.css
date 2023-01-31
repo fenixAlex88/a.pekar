@@ -3,6 +3,15 @@ body, #render-canvas {
     padding: 0;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/*PLAY SCREEN*/
+
+.a-pos {
+    position: absolute;
 }
 
 #user-interface {
@@ -11,8 +20,77 @@ body, #render-canvas {
 }
 
 #restart-btn {
-    position: absolute;
     right: 0;
     bottom: 0;
-    width: 200px;
+    width: 100px;
+}
+
+#coin-img {
+    top: 2vh;
+    right: 2vh;
+    width: 5vh;
+}
+
+#coin-score {
+    top: -4vh;
+    right: 8vh;
+    font-size: 6vh;
+}
+
+#score {
+    top: 12vh;
+    width: 100%;
+    text-align: center;
+    font-size: 8vh;
+}
+
+/*GAME OVER SCREEN*/
+
+#game-over-screen {
+    display: none;
+}
+
+.game-over-p {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+#game-over-info {
+    top: 10vh;
+    font-size: 7vh;
+}
+
+#best-score {
+    top: 30vh;
+    font-size: 6vh;
+}
+
+#now-score {
+    top: 40vh;
+    font-size: 6vh;
+}
+
+#tap-info {
+    top: 70vh;
+    font-size: 4vh;
+    animation-name: tap-info_anim;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+/*АНИМАЦИИ*/
+
+@keyframes tap-info_anim {
+    0%, 100% {
+        font-size: 4vh;
+        top: 70vh;
+        opacity: 0.1;
+    }
+    50% {
+        font-size: 6vh;
+        top: 68vh;
+        opacity: 1;
+    }
+
 }
