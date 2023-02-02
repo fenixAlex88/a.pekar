@@ -1,4 +1,40 @@
+* {
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    background: url('sand.jpg') repeat;
+    color: #f0f8ff;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 .container {
     display: block;
-    margin: 0 auto;
+    margin: 25px;
+    text-align: center;
+    position: relative;
+}
+
+#result,
+#againBtn {
+    position: absolute;
+    top: 30vh;
+    left: 50%;
+    translate: -50%;
+    font-size: 40px;
+    font-weight: 700;
+    color: #900;
+}
+
+#againBtn {
+    display: none;
+    top: 40vh;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }

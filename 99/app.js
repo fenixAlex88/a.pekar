@@ -33,6 +33,7 @@ BABYLON.SceneLoader.ImportMesh(
         shadowGenerator.addShadowCaster(car);
         car.receiveShadows = true;
         camera.target = car.position;
+        console.log(car);
     }
 );
 
@@ -42,5 +43,6 @@ engine.runRenderLoop(() => {
 
 
 window.addEventListener('keydown', () => {
-    box.position.z -= 0.1;
+    car.rotation.z -= 1;
+    console.log(car)
 })

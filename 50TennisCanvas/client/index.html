@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Tennis</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <div class="container">
     <canvas id="app" width="500" height="800"></canvas>
+    <p id="score"></p>
+    <p id="bestScore"></p>
 </div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="app.js"></script>
+<div>
+    <div id="result"></div>
+    <button id="againBtn">Play again</button>
+</div>
+
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<script src="app2.js"></script>
 </body>
+
 </html>

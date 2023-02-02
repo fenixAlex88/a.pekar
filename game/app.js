@@ -94,6 +94,7 @@ const createCoin = (pos) => {
     );
 }
 
+
 //Создание препятствий
 //let lastRand = 0;
 
@@ -159,15 +160,13 @@ const bestScoreInfo = document.querySelector('#best-score');
 const nowScoreInfo = document.querySelector('#now-score');
 
 //Переменные
-let ballMoveLeft = false;
-let ballMoveRight = false;
 let score = 0;
 let coinScore = 0;
 let state = 'play';
+let ballMoveLeft = false;
+let ballMoveRight = false;
 
 //функции
-
-
 const saveCoinScore = () => {
     localStorage.coinScore = coinScore;
 }
@@ -198,15 +197,14 @@ const setGameOverScreen = () => {
     nowScoreInfo.textContent = `NOW: ${score}`;
 }
 
-
 //встроенные функции Babylon
 scene.registerBeforeRender(() => {
-    if (ballMoveLeft && ball.getAbsolutePosition().x > -2) {
-        ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(-1, 0, 0), ball.getAbsolutePosition())
+
+    if (ballMoveLeft && ball.getAbsolutePosition().x > -3) {
+        ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(-1.2, 0, 0), ball.getAbsolutePosition())
     }
-    if (ballMoveRight && ball.getAbsolutePosition().x < 2) {
-        console.log(ball.getAbsolutePosition().x)
-        ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(1, 0, 0), ball.getAbsolutePosition())
+    if (ballMoveRight && ball.getAbsolutePosition().x < 3) {
+        ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(1.2, 0, 0), ball.getAbsolutePosition())
     }
     boxArr.forEach((box) => {
         if (ball.intersectsMesh(box, true)) {
@@ -240,6 +238,7 @@ scene.registerBeforeRender(() => {
 
 engine.runRenderLoop(() => {
     scene.render();
+
 })
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
@@ -260,12 +259,17 @@ window.addEventListener('touchend', () => {
     ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 5));
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
 });
-
 window.addEventListener('keydown', (e) => {
-    ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 5));
+    ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 3));
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
-    if (e.keyCode === 37) ballMoveLeft = true;
-    if (e.keyCode === 39) ballMoveRight = true;
+    if (e.keyCode === 37) {
+        ballMoveLeft = true;
+    }
+
+    if (e.keyCode === 39) {
+        ballMoveRight = true;
+    }
+
 })
 
 window.addEventListener('keyup', (e) => {
