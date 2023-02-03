@@ -76,7 +76,6 @@
         if (players.enemyPos > arena.width - 100) players.enemyPos = arena.width - 100;
     };
     let isGame = true;
-    let game;
     const renderGame = () => {
         canvas.style.cursor = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -114,11 +113,11 @@
         }
 
     })
-
+/*
     window.addEventListener('dblclick',(e)=>{
         e.preventDefault();
         e.stopPropagation();
-    })
+    })*/
 
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
