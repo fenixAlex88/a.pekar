@@ -115,8 +115,7 @@
 
     })
 
-/*
-    window.addEventListener('toutchstart', (e) => {
+    window.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const x = e.touches[0].screenX;
         console.log(window.screen.width);
@@ -127,7 +126,6 @@
             players.selfPos -= 20;
         }
     });
-*/
 
     againBtn.addEventListener('click', () => {
         ball.x = arena.width / 2;
