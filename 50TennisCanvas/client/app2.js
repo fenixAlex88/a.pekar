@@ -115,6 +115,8 @@
 
     })
 
+    window.addEventListener('dblclick',(e)=>{e.preventDefault()})
+
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const x = e.touches[0].screenX;
