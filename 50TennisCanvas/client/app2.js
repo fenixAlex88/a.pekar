@@ -22,9 +22,9 @@
     const players = localStorage.gameInfo ?
         JSON.parse(localStorage.gameInfo)
         : {
-            selfPos: 250,
+            selfPos: arena.width / 2 -100,
             selfScore: 0,
-            enemyPos: 250,
+            enemyPos: arena.width / 2 -100,
             enemyScore: 0
         };
     const clear = () => {
@@ -67,7 +67,7 @@
             canvas.style.cursor = 'auto';
         }
 
-        const offset = 2.7 + Math.random();
+        const offset = 2.0 + Math.random();
         if (players.enemyPos > ball.x - 50)
             players.enemyPos -= offset;
         if (players.enemyPos < ball.x - 50)
@@ -130,6 +130,8 @@
     againBtn.addEventListener('click', () => {
         ball.x = arena.width / 2;
         ball.y = arena.height / 2;
+        players.selfPos = arena.width / 2 -100;
+        players.enemyPos = arena.width / 2 -100;
         againBtn.style.display = 'none';
         canvas.style.cursor = 'none';
         resultInfo.textContent = '';
