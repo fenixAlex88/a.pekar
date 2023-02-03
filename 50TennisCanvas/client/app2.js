@@ -130,8 +130,7 @@
     againBtn.addEventListener('click', () => {
         ball.x = arena.width / 2;
         ball.y = arena.height / 2;
-        players.selfPos = arena.width / 2 -100;
-        players.enemyPos = arena.width / 2 -100;
+        ball.speedX = 0;
         againBtn.style.display = 'none';
         canvas.style.cursor = 'none';
         resultInfo.textContent = '';
