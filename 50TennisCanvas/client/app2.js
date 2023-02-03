@@ -94,6 +94,18 @@ battlefield.src = 'grass.jpg';
         players.selfPos = e.offsetX - 100 > 0 ? e.offsetX - 100 : 0;
     });
 
+    window.addEventListener('touchstart', (e) => {
+            const x = e.touches[0].screenX;
+        console.log(window.screen.width);
+        console.log(e.touches[0]);
+            if (x > (window.screen.width / 2)) {
+                players.selfPos+=10;
+            } else {
+                players.selfPos+=10;
+        }
+    });
+
+
     againBtn.addEventListener('click', ()=>{
         window.location.reload();
     })
