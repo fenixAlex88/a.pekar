@@ -116,7 +116,7 @@
     })
 
 
-    window.addEventListener('touchend', (e) => {
+    window.addEventListener('toutchstart', (e) => {
         e.preventDefault();
         const x = e.touches[0].screenX;
         console.log(window.screen.width);
