@@ -67,7 +67,7 @@
             canvas.style.cursor = 'auto';
         }
 
-        const offset = 1.7 + Math.random();
+        const offset = 2.7 + Math.random();
         if (players.enemyPos > ball.x - 50)
             players.enemyPos -= offset;
         if (players.enemyPos < ball.x - 50)
