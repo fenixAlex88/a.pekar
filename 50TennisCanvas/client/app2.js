@@ -115,7 +115,7 @@
 
     })
 
-
+/*
     window.addEventListener('toutchstart', (e) => {
         e.preventDefault();
         const x = e.touches[0].screenX;
@@ -127,7 +127,7 @@
             players.selfPos -= 20;
         }
     });
-
+*/
 
     againBtn.addEventListener('click', () => {
         ball.x = arena.width / 2;
