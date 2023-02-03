@@ -27,6 +27,7 @@
             enemyPos: arena.width / 2 - 100,
             enemyScore: 0
         };
+    players.selfPos = 250;
     const clear = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#fff';
