@@ -22,9 +22,9 @@
     const players = localStorage.gameInfo ?
         JSON.parse(localStorage.gameInfo)
         : {
-            selfPos: arena.width / 2 -100,
+            selfPos: arena.width / 2 - 100,
             selfScore: 0,
-            enemyPos: arena.width / 2 -100,
+            enemyPos: arena.width / 2 - 100,
             enemyScore: 0
         };
     const clear = () => {
@@ -113,11 +113,10 @@
         }
 
     })
-/*
-    window.addEventListener('dblclick',(e)=>{
-        e.preventDefault();
+
+    window.addEventListener('dblclick', (e) => {
         e.stopPropagation();
-    })*/
+    })
 
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
