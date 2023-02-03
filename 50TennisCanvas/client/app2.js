@@ -122,9 +122,9 @@
         console.log(window.screen.width);
         console.log(e.touches[0]);
         if (x > (window.screen.width / 2)) {
-            players.selfPos += 9;
+            players.selfPos += 20;
         } else {
-            players.selfPos -= 9;
+            players.selfPos -= 20;
         }
     });
 
