@@ -115,7 +115,10 @@
 
     })
 
-    window.addEventListener('dblclick',(e)=>{e.preventDefault()})
+    window.addEventListener('dblclick',(e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+    })
 
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
