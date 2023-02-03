@@ -7,17 +7,18 @@
     const ctx = canvas.getContext('2d');
     const battlefield = new Image();
     battlefield.src = 'grass.jpg';
-    const ball = {
-        x: 200,
-        y: 200,
-        size: 15,
-        speedX: 0.5,
-        speedY: 2.5
-    };
     const arena = {
         width: 500,
         height: 800
     };
+    const ball = {
+        x: arena.width / 2,
+        y: arena.height / 2,
+        size: 15,
+        speedX: 1,
+        speedY: 4
+    };
+
     const players = localStorage.gameInfo ?
         JSON.parse(localStorage.gameInfo)
         : {
@@ -26,7 +27,13 @@
             enemyPos: 250,
             enemyScore: 0
         };
-
+    const clear = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, arena.width, arena.height)
+        ctx.fill();
+    }
+    clear();
     const ballMove = () => {
         ball.x += ball.speedX;
         ball.y += ball.speedY;
@@ -46,24 +53,21 @@
             ball.speedY *= (-1);
         }
         if (ball.y <= 0 || ball.y >= arena.height) {
-            clearInterval(game);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, arena.width, arena.height)
-            ctx.fill();
+            isGame = false;
+            clear();
             if (ball.y <= 0) {
                 players.selfScore++;
                 resultInfo.textContent = `You WON!!!`;
             } else {
                 players.enemyScore++;
                 resultInfo.textContent = `You LOSE!!!`;
-            };
+            }
             localStorage.gameInfo = JSON.stringify(players);
             againBtn.style.display = 'block';
             canvas.style.cursor = 'auto';
         }
 
-        const offset = 1.4 + Math.random();
+        const offset = 1.7 + Math.random();
         if (players.enemyPos > ball.x - 50)
             players.enemyPos -= offset;
         if (players.enemyPos < ball.x - 50)
@@ -71,6 +75,8 @@
         if (players.enemyPos < 0) players.enemyPos = 0;
         if (players.enemyPos > arena.width - 100) players.enemyPos = arena.width - 100;
     };
+    let isGame = true;
+    let game;
     const renderGame = () => {
         canvas.style.cursor = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -92,7 +98,8 @@
         ctx.fill();
         ballMove();
         scoreInfo.textContent = `SCORE: ${players.selfScore} : ${players.enemyScore}`;
-    }
+        if (isGame) requestAnimationFrame(renderGame);
+    };
     /*   canvas.addEventListener('mousemove', (e) => {
            players.selfPos = e.offsetX - 100 > 0 ? e.offsetX - 100 : 0;
        });
@@ -109,7 +116,6 @@
     })
 
 
-
     window.addEventListener('touchstart', (e) => {
         const x = e.touches[0].screenX;
         console.log(window.screen.width);
@@ -122,11 +128,15 @@
     });
 
 
-
     againBtn.addEventListener('click', () => {
-        window.location.reload();
+        ball.x = arena.width / 2;
+        ball.y = arena.height / 2;
+        againBtn.style.display = 'none';
+        canvas.style.cursor = 'none';
+        resultInfo.textContent = '';
+        isGame = true;
+        renderGame();
     })
 
-    const game = setInterval(renderGame, 10);
 
 })();

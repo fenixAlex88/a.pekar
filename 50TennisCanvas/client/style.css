@@ -32,7 +32,6 @@ body {
 }
 
 #againBtn {
-    display: none;
     top: 40vh;
     padding: 20px;
     border-radius: 5px;
