@@ -22,9 +22,9 @@
     const players = localStorage.gameInfo ?
         JSON.parse(localStorage.gameInfo)
         : {
-            selfPos: 250,
+            selfPos: arena.width / 2 - 100,
             selfScore: 0,
-            enemyPos: 250,
+            enemyPos: arena.width / 2 - 100,
             enemyScore: 0
         };
     const clear = () => {
@@ -67,7 +67,7 @@
             canvas.style.cursor = 'auto';
         }
 
-        const offset = 1.7 + Math.random();
+        const offset = 2.0 + Math.random();
         if (players.enemyPos > ball.x - 50)
             players.enemyPos -= offset;
         if (players.enemyPos < ball.x - 50)
@@ -76,7 +76,6 @@
         if (players.enemyPos > arena.width - 100) players.enemyPos = arena.width - 100;
     };
     let isGame = true;
-    let game;
     const renderGame = () => {
         canvas.style.cursor = 'none';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -115,6 +114,9 @@
 
     })
 
+    window.addEventListener('dblclick', (e) => {
+        e.stopPropagation();
+    })
 
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
@@ -128,10 +130,10 @@
         }
     });
 
-
     againBtn.addEventListener('click', () => {
         ball.x = arena.width / 2;
         ball.y = arena.height / 2;
+        ball.speedX = 0.5;
         againBtn.style.display = 'none';
         canvas.style.cursor = 'none';
         resultInfo.textContent = '';

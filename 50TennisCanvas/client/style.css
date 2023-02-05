@@ -2,6 +2,11 @@
     margin: 0;
 }
 
+#app {
+    width: 60vh;
+    height: 85vh;
+}
+
 body {
     width: 100%;
     height: 100vh;
