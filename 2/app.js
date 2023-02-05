@@ -53,22 +53,6 @@ const carBasket = localStorage.carBasket ? JSON.parse(localStorage.carBasket) : 
 
 //функции
 
-//функция выбора страниц по хэшу
-const switchToStateFromURLHash = () => {
-    const stateStr = window.location.hash.slice(1);
-    console.log(stateStr);
-    switch (stateStr) {
-        case 'Main':
-            render(main);
-            break;
-        case 'Basket':
-            render(basket);
-            break;
-        default:
-            break;
-    }
-};
-
 //функция отрисовки главной страницы
 const main = () => {
     const cards = document.createElement('div');
@@ -108,10 +92,8 @@ const main = () => {
     renderBasketNote();
     return cards;
 }
-
 //добавление в корзину
 const addBasket = (e) => {
-    console.log(e)
     const id = parseInt(e.currentTarget.parentElement.dataset.id);
     let car = cars.filter((car) => car.id === id);
     if (carBasket.filter((car) => car.id === id).length > 0) {
@@ -123,19 +105,16 @@ const addBasket = (e) => {
     renderBasketNote();
     localStorage.carBasket = JSON.stringify(carBasket);
 };
-
 //сортировка по возрастанию цены
 const _sortUp = () => {
     cars.sort((a, b) => a.price - b.price);
     render(main);
 };
-
 //сортировка по убыванию цены
 const _sortDown = () => {
     cars.sort((a, b) => b.price - a.price);
     render(main);
 };
-
 //добавление нового объявления
 const _addNewCar = () => {
     cars.push({
@@ -149,13 +128,11 @@ const _addNewCar = () => {
     render(main);
     document.getElementsByName("newCar")[0].classList.toggle('hide');
 };
-
 //удаление объявления
 const delCar = (e) => {
     cars.splice(findById(cars, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
     render(main);
 };
-
 //функция отрисовки сайдбара
 const sidebar = () => {
     const aside = document.createElement('div');
@@ -316,7 +293,7 @@ const renderBasketNote = () => {
     document.getElementById('basketCount').textContent = `В корзине ${basketCount} товаров`;
     document.getElementById('basketSumm').textContent = `На сумму ${priceFormat(basketSumm)}`;
 };
-
+//функция отрисовки корзины
 const basket = () => {
     const cards = document.createElement('div');
     cards.classList.add('cards');
@@ -356,7 +333,6 @@ const basket = () => {
     }
     return cards;
 }
-
 //удаление из корзины
 const delCarBasket = (e) => {
     carBasket.splice(findById(carBasket, parseInt(e.currentTarget.parentElement.dataset.id)), 1);
@@ -364,9 +340,10 @@ const delCarBasket = (e) => {
     renderBasketNote();
     localStorage.carBasket = JSON.stringify(carBasket);
 };
-
+//отрисовка сайдбара
 const aside = document.getElementById('aside');
 aside.append(sidebar());
+//функция рендер
 const app = document.getElementById('app');
 const render = (func) => {
     app.innerHTML = '';
@@ -377,11 +354,25 @@ const priceFormat = (price) => price.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
 });
-
 //поиск индекса элемента в массиве arr по id
 const findById = (arr, id) => arr.map((car) => car.id).indexOf(id);
 
+//функция выбора страниц по хэшу
+const switchToStateFromURLHash = () => {
+    const stateStr = window.location.hash.slice(1);
+    switch (stateStr) {
+        case 'Main':
+            render(main);
+            break;
+        case 'Basket':
+            render(basket);
+            break;
+        default:
+            break;
+    }
+};
 switchToStateFromURLHash();
+
 //выборка объектов
 const renderBasketBtn = document.getElementById('renderBasketBtn');
 const renderMainBtn = document.getElementById('renderMainBtn');
@@ -412,6 +403,3 @@ addCarBtn.addEventListener("click", () => {
     document.getElementsByName("newCar")[0].classList.toggle('hide');
 });
 window.addEventListener('hashchange', switchToStateFromURLHash);
-
-
-
