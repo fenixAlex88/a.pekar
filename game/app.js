@@ -80,12 +80,12 @@ for (let i = 0; i < 10; i++) {
 const createCoin = (pos) => {
     BABYLON.SceneLoader.ImportMesh(
         null,
-        'assets/coin/',
+        'assets/x_wing/',
         'scene.gltf',
         scene,
         (meshArray) => {
             const coin = meshArray[0];
-            coin.scaling = new BABYLON.Vector3(0.08, 0.08, 0.08);
+            coin.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
             coin.position = pos;
             shadowGenerator.addShadowCaster(coin);
             coin.receiveShadows = true;
@@ -259,17 +259,34 @@ window.addEventListener('touchend', () => {
     ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 5));
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
 });
+let y = 0;
 window.addEventListener('keydown', (e) => {
-    ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 3));
+    console.log(e.keyCode)
+    ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
     if (e.keyCode === 37) {
-        ballMoveLeft = true;
+        coinArr.forEach((coin) => {
+            y-=0.05;
+            coin.rotation = new BABYLON.Vector3(0,y,0);
+        })
     }
 
     if (e.keyCode === 39) {
-        ballMoveRight = true;
+        coinArr.forEach((coin) => {
+            y+=0.05;
+            coin.rotation = new BABYLON.Vector3(0,y,0);
+        })
     }
-
+    if (e.keyCode === 38) {
+        coinArr.forEach((coin) => {
+            coin.position.z -= 1;
+        })
+    }
+    if (e.keyCode === 40) {
+        coinArr.forEach((coin) => {
+            coin.position.z += 1;
+        })
+    }
 })
 
 window.addEventListener('keyup', (e) => {
