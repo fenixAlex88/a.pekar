@@ -67,7 +67,7 @@ const createball = () => {
         new BABYLON.Vector3(xWing.position.x + rand(-20, 20), xWing.position.y + rand(-20, 20), 100)
         : new BABYLON.Vector3(rand(-20, 20), rand(-20, 20), 100);
     const ballMaterial = new BABYLON.StandardMaterial('material', scene);
-    ballMaterial.emissiveTexture = new BABYLON.Texture('assets/ball.png');
+    ballMaterial.emissiveTexture = new BABYLON.Texture('assets/met.webp');
     ball.material = ballMaterial;
     shadowGenerator.getShadowMap().renderList.push(ball);
     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, {
@@ -156,11 +156,11 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode === 37) {
-        xWing.rotation = new BABYLON.Vector3(0, 0, 0);
+   //     xWing.rotation = new BABYLON.Vector3(0, 0, 0);
     }
 
     if (e.keyCode === 39) {
-        xWing.rotation = new BABYLON.Vector3(0, 0, 0);
+    //    xWing.rotation = new BABYLON.Vector3(0, 0, 0);
     }
     if (e.keyCode === 38) {
         xWing.rotation = new BABYLON.Vector3(0, 0, 0);
