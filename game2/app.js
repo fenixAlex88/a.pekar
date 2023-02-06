@@ -23,7 +23,7 @@ skyboxMateerial.backFaceCulling = false;
 skybox.material = skyboxMateerial;
 
 //Создание камеры
-const camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 2, -14), scene);
+const camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, -0.5, -10), scene);
 camera.setTarget(new BABYLON.Vector3(0, 0, 0));
 
 //Создание света
@@ -35,6 +35,7 @@ const shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
 
 //СОЗДАНИЕ ПРЕДМЕТОВ
 const ballArr = [];
+const shootArr = [];
 let xWing;
 let s = 30;
 
@@ -61,7 +62,7 @@ createCoin();
 
 const createball = () => {
     const ball = new BABYLON.MeshBuilder.CreateSphere('sphere', {
-        diametr: 1
+        diametr: 2
     }, scene);
     ball.position = xWing ?
         new BABYLON.Vector3(xWing.position.x + rand(-20, 20), xWing.position.y + rand(-20, 20), 100)
@@ -81,7 +82,20 @@ const createball = () => {
 //АЛГОРИТМ
 
 //функции
-
+const createShoot = () => {
+    const shoot = new BABYLON.MeshBuilder.CreateCapsule("capsule",
+        {
+            radius: 0.25,
+            capSubdivisions: 6,
+            subdivisions: 6,
+            tessellation: 36,
+            height: 2,
+            orientation: BABYLON.Vector3.Forward()
+        });
+    shoot.material = new BABYLON.StandardMaterial('material', scene);
+    shoot.material.emissiveColor = new BABYLON.Color3(0.5, 0, 0);
+    shoot.position = xWing ? new BABYLON.Vector3(0, 0, 0) : new BABYLON.Vector3(0, 0, 0);
+};
 
 //встроенные функции Babylon
 scene.registerBeforeRender(() => {
@@ -101,11 +115,24 @@ scene.registerBeforeRender(() => {
             ballArr.splice(i, 1);
             createball();
         }
+        shootArr.forEach((shoot, index) => {
+            if (ball.intersectsMesh(shoot, true)) {
+                ball.dispose();
+                ballArr.splice(i, 1);
+                shoot.dispose();
+                shoot.splice(index, 1);
+            }
+        })
     })
+
+
     if (xWing) {
         camera.position.x = xWing.position.x;
         camera.position.y = xWing.position.y + 2;
+        xWing.rotation = new BABYLON.Vector3(rotXWing.x, rotXWing.y, rotXWing.z);
+
     }
+
 });
 
 engine.runRenderLoop(() => {
@@ -114,59 +141,59 @@ engine.runRenderLoop(() => {
 })
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
-let x = 0;
-let y = 0;
+const rotXWing = {
+    x: 0,
+    y: 0,
+    z: 0
+};
 
 
 window.addEventListener('keydown', (e) => {
+    console.log(e.keyCode);
     if (e.keyCode === 37) {
         console.log('left');
-        y -= 0.05;
+        rotXWing.z = 0.5;
         xWing.position.x -= 0.2;
-        xWing.rotation = new BABYLON.Vector3(0, 0, 0.5);
     }
 
     if (e.keyCode === 39) {
         console.log('right');
-        y += 0.05;
+        rotXWing.z = -0.5;
         xWing.position.x += 0.2;
-        xWing.rotation = new BABYLON.Vector3(0, 0, -0.5);
     }
     if (e.keyCode === 38) {
         console.log('up');
+        rotXWing.x = -0.2;
         xWing.position.y += 0.2;
     }
     if (e.keyCode === 40) {
         console.log('down');
+        rotXWing.x = 0.2;
         xWing.position.y -= 0.2;
     }
     if (e.keyCode === 87) {
-        xWing.position.x += y * 0.1;
-        xWing.position.y -= 0.2 * x;
+        xWing.position.x += rotXWing.y * 0.1;
+        xWing.position.y -= 0.2 * rotXWing.x;
         xWing.position.z;
 
     }
     if (e.keyCode === 83) {
-        xWing.position.x -= y * 0.1;
-        xWing.position.y -= 0.2 * x;
+        xWing.position.x -= rotXWing.y * 0.1;
+        xWing.position.y -= 0.2 * rotXWing.x;
         xWing.position.z;
+
+    }
+    if (e.keyCode === 32) {
+        createShoot();
 
     }
 })
 
-window.addEventListener('keydown', (e) => {
-    if (e.keyCode === 37) {
-   //     xWing.rotation = new BABYLON.Vector3(0, 0, 0);
+window.addEventListener('keyup', (e) => {
+    if (e.keyCode === 37 || e.keyCode === 39) {
+        rotXWing.z = 0;
     }
-
-    if (e.keyCode === 39) {
-    //    xWing.rotation = new BABYLON.Vector3(0, 0, 0);
+    if (e.keyCode === 38 || e.keyCode === 40) {
+        rotXWing.x = 0;
     }
-    if (e.keyCode === 38) {
-        xWing.rotation = new BABYLON.Vector3(0, 0, 0);
-    }
-    if (e.keyCode === 40) {
-        xWing.rotation = new BABYLON.Vector3(0, 0, 0);
-    }
-
 })

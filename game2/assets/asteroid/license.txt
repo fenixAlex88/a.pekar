@@ -1,0 +1,11 @@
+Model Information:
+* title:	Asteroid 4
+* source:	https://sketchfab.com/3d-models/asteroid-4-e652a4af5958476c9ff8eb92ab67ce77
+* author:	cesarangeles15 (https://sketchfab.com/careerproject)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Asteroid 4" (https://sketchfab.com/3d-models/asteroid-4-e652a4af5958476c9ff8eb92ab67ce77) by cesarangeles15 (https://sketchfab.com/careerproject) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
