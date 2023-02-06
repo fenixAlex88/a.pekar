@@ -259,7 +259,7 @@ window.addEventListener('touchend', () => {
     ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 5));
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
 });
-let y = 0;
+let y = 3.3;
 window.addEventListener('keydown', (e) => {
     console.log(e.keyCode)
     ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
@@ -273,6 +273,7 @@ window.addEventListener('keydown', (e) => {
 
     if (e.keyCode === 39) {
         coinArr.forEach((coin) => {
+            console.log(y)
             y+=0.05;
             coin.rotation = new BABYLON.Vector3(0,y,0);
         })

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="render-canvas"></canvas>
+<div id="user-interface">
+    <p id="coin-score" class="a-pos">0</p>
+    <div id="game-over-screen">
+        <p id="game-over-info" class="game-over-p">GAME OVER</p>
+        <p id="best-score" class="game-over-p"></p>
+        <p id="now-score" class="game-over-p"></p>
+        <p id="tap-info" class="game-over-p">Tap to restart</p>
+    </div>
+</div>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script src="https://cdn.babylonjs.com/cannon.js"></script>
+<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
