@@ -6,12 +6,29 @@ body, #render-canvas {
     overflow: hidden;
     user-select: none;
     font-family: 'Press Start 2P', cursive;
+    color: #ffffe9;
 }
 
 /*PLAY SCREEN*/
 
 .a-pos {
     position: absolute;
+}
+#health {
+    top: 20px;
+    left: 20px;
+    height: 50px;
+    width: 200px;
+    background-color: #b72e2e;
+    border-top-left-radius: 25px;
+}
+#shield {
+    top: 20px;
+    left: 220px;
+    height: 50px;
+    width: 100px;
+    background-color: #4299c7;
+    border-bottom-right-radius: 25px;
 }
 
 #user-interface {
