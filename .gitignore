@@ -4,3 +4,5 @@
 /webpack/node_modules/
 /webpack/dist/
 /node_modules/
+/API_Server/node_modules/
+/API_Server/.env
