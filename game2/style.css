@@ -14,27 +14,82 @@ body, #render-canvas {
 .a-pos {
     position: absolute;
 }
+.hide {
+    display: none;
+}
+
 #health {
-    top: 20px;
-    left: 20px;
-    height: 50px;
-    width: 200px;
-    background-color: #b72e2e;
+    top: 2vh;
+    left: 2vh;
+    height: 5vh;
+    width: 21vh;
+    background-color: #da0e0e;
     border-top-left-radius: 25px;
+    border: #ffffe9 5px solid;
+    border-right: none;
 }
+
 #shield {
-    top: 20px;
-    left: 220px;
-    height: 50px;
-    width: 100px;
-    background-color: #4299c7;
+    top: 2vh;
+    left: 23vh;
+    height: 5vh;
+    width: 11vh;
+    background-color: #53c1ff;
     border-bottom-right-radius: 25px;
+    border: #ffffe9 5px solid;
+    border-left: none;
 }
+
+#health > img,
+#shield > img {
+    top: 0.5vh;
+    left: 0.5vh;
+    width: 4vh;
+}
+
+#electroShield {
+    top: 9vh;
+    left: 2vh;
+    height: 2vh;
+    width: 33vh;
+    background-color: #2fe92f;
+    border-radius: 1vh;
+}
+
+#player_info {
+    bottom: 1vh;
+    left: 1vh;
+}
+
+#player_info > img {
+    width: 8vh;
+    margin-right: 1vh;
+    border-radius: 50%;
+}
+
+#player_info > span {
+    font-size: 5vh;
+}
+
+#message {
+    height: 15vh;
+    width: 70vh;
+    bottom: 1vh;
+    right: 1vh;
+    font-size: 1.8vh;
+}
+#message>img {
+    float: left;
+    height: 100%;
+    margin-right: 1vh;
+}
+    /*--------------------------------------------------------------*/
 
 #user-interface {
     margin: 0;
     padding: 0;
 }
+
 
 #restart-btn {
     right: 0;
@@ -110,4 +165,17 @@ body, #render-canvas {
         opacity: 1;
     }
 
+}
+
+@keyframes electroShield-reducing {
+    0% {
+        width: 33vh;
+    }
+    33% {
+        background-color: #2fe92f;
+    }
+    100% {
+        background-color: #e92f2f;
+        width: 0vh;
+    }
 }

@@ -80,7 +80,7 @@ for (let i = 0; i < 10; i++) {
 const createCoin = (pos) => {
     BABYLON.SceneLoader.ImportMesh(
         null,
-        'assets/x_wing/',
+        'assets/coin/',
         'scene.gltf',
         scene,
         (meshArray) => {
@@ -133,8 +133,27 @@ const createRowBox = (zPos) => {
 for (let i = 0; i < 10; i++) {
     createRowBox(i * 6);
 }
-
 //Создание мяча и материала
+let car;
+setTimeout(()=>{
+BABYLON.SceneLoader.ImportMesh(
+    null,
+    'assets/mustang/',
+    'scene.gltf',
+    scene,
+    (meshArray) => {
+        car = meshArray[0];
+        car.position = new BABYLON.Vector3(0, 6, 0);
+        shadowGenerator.addShadowCaster(car);
+        car.receiveShadows = true;
+        car.physicsImpostor = new BABYLON.PhysicsImpostor(car, BABYLON.PhysicsImpostor.SphereImpostor, {
+            mass: 1, // restitution: 4,
+            friction: 5
+        }, scene);
+    }
+)},20);
+
+
 const ball = new BABYLON.MeshBuilder.CreateSphere('sphere', {
     diametr: 1
 }, scene);
@@ -199,6 +218,9 @@ const setGameOverScreen = () => {
 
 //встроенные функции Babylon
 scene.registerBeforeRender(() => {
+    if (car) {
+
+    }
 
     if (ballMoveLeft && ball.getAbsolutePosition().x > -3) {
         ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(-1.2, 0, 0), ball.getAbsolutePosition())
@@ -266,16 +288,16 @@ window.addEventListener('keydown', (e) => {
     ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3(0, 0, 0));
     if (e.keyCode === 37) {
         coinArr.forEach((coin) => {
-            y-=0.05;
-            coin.rotation = new BABYLON.Vector3(0,y,0);
+            y -= 0.05;
+            coin.rotation = new BABYLON.Vector3(0, y, 0);
         })
     }
 
     if (e.keyCode === 39) {
         coinArr.forEach((coin) => {
             console.log(y)
-            y+=0.05;
-            coin.rotation = new BABYLON.Vector3(0,y,0);
+            y += 0.05;
+            coin.rotation = new BABYLON.Vector3(0, y, 0);
         })
     }
     if (e.keyCode === 38) {
@@ -292,5 +314,6 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     if (e.keyCode === 37) ballMoveLeft = false;
+    car.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 5));
     if (e.keyCode === 39) ballMoveRight = false;
 })
