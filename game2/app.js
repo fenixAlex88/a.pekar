@@ -4,6 +4,10 @@ const app = document.getElementById('app');
 const canvas = document.createElement('canvas');
 app.append(canvas);
 canvas.id = 'render-canvas';
+//прелодер
+const preloader = document.createElement('div');
+document.body.append(preloader);
+preloader.classList.add('loader', 'a-pos');
 //создание пользовательского интерфейса
 //создание счетчика очков
 const scoreInfo = document.createElement('p');
@@ -46,6 +50,7 @@ playerAvatar.alt = 'avatar';
 const playerName = document.createElement('span');
 playerInfo.append(playerName);
 playerName.textContent = 'Name';
+
 //создание игрового сообщения
 const createMsg = (imgSrc, mess) => {
     const messageInfo = document.createElement('div');
@@ -59,11 +64,11 @@ const createMsg = (imgSrc, mess) => {
     const messageInfoText = document.createElement('span');
     messageInfo.append(messageInfoText);
     messageInfoText.textContent = mess;
+    setTimeout(() => {
+        messageInfo.parentElement.removeChild(messageInfo)
+    }, 25000)
 }
-const rmMsg = () => {
-    const messageInfo = document.getElementById('message');
-    messageInfo.parentElement.removeChild(messageInfo);
-}
+
 //Создание движка
 const engine = new BABYLON.Engine(canvas);
 
@@ -115,7 +120,7 @@ let ship,
     shield = 11,
     health = 21,
     score = 0,
-    isGame = true,
+    isGame = false,
     lockshoot = false,
     _shield;
 //функция случайного числа между
@@ -148,7 +153,7 @@ const createShip = () => {
 createShip();
 
 const createMeteor = () => {
-    const meteor = new BABYLON.MeshBuilder.CreateSphere('sphere',{diameter: rand(1,2), segments: 8}, scene);
+    const meteor = new BABYLON.MeshBuilder.CreateSphere('sphere', {diameter: rand(1, 2), segments: 8}, scene);
     meteor.position = ship ?
         new BABYLON.Vector3(ship.position.x + rand(-100, 100), ship.position.y + rand(-100, 100), ship.position.z + rand(-100, 100))
         : new BABYLON.Vector3(rand(-100, 100), rand(-100, 100), rand(-100, 100));
@@ -216,8 +221,8 @@ const createEnemyShip = () => {
                 y: Math.PI,
                 z: 0,
                 cur: 0
-            },
-                shipsArr.push(enemysheep);
+            };
+            shipsArr.push(enemysheep);
         }
     );
 }
@@ -279,6 +284,15 @@ const createShield = () => {
     _shieldlock = true;
     electroShieldInfo.style.animation = 'electroShield-reducing  15s forwards';
 }
+
+setTimeout(() => {
+    preloader.parentElement.removeChild(preloader);
+    app.removeAttribute('style');
+    isGame = true;
+    createMsg('assets/solo.jpg', `ВНИМАНИЕ ПИЛОТ!!! 
+    Твоим первым заданием будет очистка пояса астероидов. Уничтожь как можно больше камней за 5 минут. Расчисти путь для флота повстанцев!!!`);
+}, 5000);
+
 setTimeout(() => {
     for (let i = 0; i <= 2; i++) {
         createEnemyShip();
@@ -286,8 +300,7 @@ setTimeout(() => {
     fightSound.play();
     createMsg('assets/solo.jpg', `ВНИМАНИЕ ПИЛОТ!!! 
     В зоне твоего полета найдены имперские штурмовики! Они не должны обнаружить местоположение нашей базы! Уничтожь их!`);
-    setTimeout(rmMsg, 20000);
-}, 10000)
+}, 210000);
 
 //встроенные функции Babylon
 scene.registerBeforeRender(() => {
