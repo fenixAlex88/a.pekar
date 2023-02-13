@@ -69,7 +69,7 @@ const createMsg = (imgSrc, mess) => {
     messageInfoText.textContent = mess;
     setTimeout(() => {
         messageInfo.parentElement.removeChild(messageInfo)
-    }, 25000)
+    }, 18000)
 }
 
 //Создание движка
@@ -134,6 +134,7 @@ const rand = (a, b) => Math.floor(Math.random() * (b - a + 1) + a);
 const shootSound = new BABYLON.Sound("shoot", "assets/audio/shoot.mp3", scene);
 const fightSound = new BABYLON.Sound("explosion", "assets/audio/fight.mp3", scene, null, {loop: true});
 const explosionSound = new BABYLON.Sound("explosion", "assets/audio/explosion.mp3", scene);
+const powerShieldSound = new BABYLON.Sound("explosion", "assets/audio/power_shield2.mp3", scene, null, {loop: true, playbackRate: 2.5});
 
 //Создание корабля
 const createShip = () => {
@@ -267,7 +268,7 @@ const demage = (_demage) => {
     }
 }
 let _shieldlock = false;
-const createShield = () => {
+const createPowerShield = () => {
     _shield = new BABYLON.MeshBuilder.CreateSphere('sphere', scene);
     _shield.position = ship.position;
     _shield.material = new BABYLON.StandardMaterial('material', scene);
@@ -458,9 +459,11 @@ window.addEventListener('keydown', (e) => {
             break;
         case 16:
             if (ship && !_shieldlock) {
-                createShield();
+                createPowerShield();
+                powerShieldSound.play();
                 setTimeout(() => {
                     _shield.destroy();
+                    powerShieldSound.stop();
                     electroShieldInfo.style.width = '0';
                     electroShieldInfo.style.removeProperty('animation');
                 }, 15000);

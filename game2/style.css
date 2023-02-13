@@ -165,6 +165,7 @@ li {
 }
 
 .errorPage > h1 {
+    bottom: 10vh;
     left: 18vw;
     font-size: 19vw;
     color: #ffdf44;
@@ -183,77 +184,33 @@ li {
 }
 
 .errorPage > a {
-    top: 10vh;
+    top: 4vw;
     right: 10vw;
     font-size: 1.5vw;
 }
 
 /*--------------------------------------------------------------*/
-
-#user-interface {
-    margin: 0;
-    padding: 0;
-}
-
-
-#restart-btn {
-    right: 0;
-    bottom: 0;
-    width: 100px;
-}
-
-#coin-img {
-    top: 2vh;
-    right: 2vh;
-    width: 5vh;
-}
-
 #coin-score {
     top: -4vh;
     right: 8vh;
     font-size: 6vh;
 }
 
-#score {
-    top: 12vh;
-    width: 100%;
-    text-align: center;
-    font-size: 8vh;
-}
-
-/*GAME OVER SCREEN*/
-
-#game-over-screen {
-    display: none;
-}
-
-.game-over-p {
+.modal {
     position: absolute;
+    top: 15vh;
+    left: 15vw;
+    width: 70vw;
+    height: 70vh;
+    background-color: #fff;
+
+}
+.modal::before {
+    position: fixed;
+    content: '';
     width: 100%;
-    text-align: center;
-}
-
-#game-over-info {
-    top: 10vh;
-    font-size: 7vh;
-}
-
-#best-score {
-    top: 30vh;
-    font-size: 6vh;
-}
-
-#now-score {
-    top: 40vh;
-    font-size: 6vh;
-}
-
-#tap-info {
-    top: 70vh;
-    font-size: 4vh;
-    animation-name: tap-info_anim;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
+    height: 100vh;
+    background-color: #727272;
 }
 
 /*АНИМАЦИИ*/
