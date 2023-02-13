@@ -1,7 +1,8 @@
 export function game(){
-    //СОЗДАНИЕ МИРА
+//СОЗДАНИЕ МИРА
 const app = document.getElementById('app');
-app.innerHTML=null;
+app.innerHTML = null;
+app.style.visibility = 'none';
 //создание холста
 const canvas = document.createElement('canvas');
 app.append(canvas);
@@ -348,7 +349,6 @@ scene.registerBeforeRender(() => {
         if (Math.abs(shoot.position.x - ship.position.x) < 1.5 &&
             Math.abs(shoot.position.y - ship.position.y) < 1.5 &&
             Math.abs(shoot.position.z - ship.position.z) < 1.5) {
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             shoot.dispose();
             enemyshootArr.splice(index, 1);
 

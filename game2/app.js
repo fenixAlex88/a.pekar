@@ -1,5 +1,8 @@
-import game from '/game.js';
+import {menu} from './menu.js';
+import {video} from './video.js';
 
 
-const enterBtn = document.querySelector('.enterBtn');
-enterBtn.addEventListener('click', game);
+//video();
+
+menu();
+
