@@ -11,6 +11,7 @@ menu.append(menuUl);
 menuUl.innerHTML = `
 <li class="btn"><a href="" class="enterBtn">Войти</a></li>
 <li class="btn"><a href="" class="regBtn">Регистрация</a></li>
+<li class="btn"><a href="" class="aboutBtn">О проектe</a></li>
 <li class="btn"><a href="" class="exitBtn">Выход</a></li>
 `;
 
