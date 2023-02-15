@@ -1,6 +1,10 @@
-import {menu} from './menu.js';
+import {menuPage} from './menuPage.js';
 import {errorPage} from "./errorPage.js";
 import {game} from "./game.js";
+import {loginPage} from "./loginPage.js";
+import {registrationPage} from "./registrationPage.js";
+import {bestPage} from "./bestPage.js";
+import {aboutPage} from "./aboutPage.js";
 
 const app = document.getElementById('app');
 
@@ -8,13 +12,27 @@ const app = document.getElementById('app');
 function switchToStateFromURLHash()  {
     app.innerHTML = null;
     const stateStr = window.location.hash.slice(1);
-    console.log(stateStr);
     switch (stateStr) {
         case 'main':
-            app.append(menu());
+            app.append(menuPage());
             break;
         case 'game':
             game();
+            break;
+        case 'login':
+            app.append(loginPage());
+            break;
+        case 'registration':
+            app.append(registrationPage());
+            break;
+        case 'about':
+            app.append(aboutPage());
+            break;
+        case 'best':
+            app.append(bestPage());
+            break;
+        case 'exit':
+            window.close();
             break;
         default:
             app.append(errorPage());

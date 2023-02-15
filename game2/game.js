@@ -67,6 +67,7 @@ const createMsg = (imgSrc, mess) => {
     const messageInfoText = document.createElement('span');
     messageInfo.append(messageInfoText);
     messageInfoText.textContent = mess;
+    r2d2_1.play();
     setTimeout(() => {
         messageInfo.parentElement.removeChild(messageInfo)
     }, 18000)
@@ -135,6 +136,9 @@ const shootSound = new BABYLON.Sound("shoot", "assets/audio/shoot.mp3", scene);
 const fightSound = new BABYLON.Sound("explosion", "assets/audio/fight.mp3", scene, null, {loop: true});
 const explosionSound = new BABYLON.Sound("explosion", "assets/audio/explosion.mp3", scene);
 const powerShieldSound = new BABYLON.Sound("explosion", "assets/audio/power_shield2.mp3", scene, null, {loop: true, playbackRate: 2.5});
+const r2d2_1 = new BABYLON.Sound("shoot", "assets/audio/r2d2_1.mp3", scene);
+const r2d2_2 = new BABYLON.Sound("shoot", "assets/audio/r2d2_2.mp3", scene);
+
 
 //Создание корабля
 const createShip = () => {
@@ -256,11 +260,12 @@ const createShoot = (x, y, z) => {
     }
 };
 
-const demage = (_demage) => {
-    if (shield - _demage >= 0) {
-        shield -= _demage
+const damage = (_damage) => {
+    r2d2_2.play();
+    if (shield - _damage >= 0) {
+        shield -= _damage
     } else {
-        health -= (_demage - shield);
+        health -= (_damage - shield);
         shield = 0;
     }
     if (health <= 0) {
@@ -353,7 +358,7 @@ scene.registerBeforeRender(() => {
             shoot.dispose();
             enemyshootArr.splice(index, 1);
 
-            if (!_shield) demage(5);
+            if (!_shield) damage(5);
         }
     })
 
@@ -398,7 +403,7 @@ scene.registerBeforeRender(() => {
                 Math.abs(meteor.position.z - ship.position.z) < 2) {
                 meteor.destroy();
                 meteorArr.splice(i, 1);
-                if (!_shield) demage(20);
+                if (!_shield) damage(20);
             }
             if (Math.abs(meteor.position.x - ship.position.x) > 100 ||
                 Math.abs(meteor.position.y - ship.position.y) > 100 ||
