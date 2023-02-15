@@ -1,6 +1,4 @@
 export function errorPage() {
-    const app = document.getElementById('app');
-    app.innerHTML = null;
     const errorPage = document.createElement('div');
     app.append(errorPage);
     errorPage.classList.add('errorPage');
@@ -20,4 +18,7 @@ export function errorPage() {
     errorPage.append(mainLink);
     mainLink.classList.add('a-pos', 'btn');
     mainLink.textContent = 'На главную';
+    mainLink.onclick = () => {location.hash = 'main'};
+
+return errorPage;
 }

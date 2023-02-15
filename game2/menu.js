@@ -1,16 +1,15 @@
 import {game} from './game.js';
 
 export function menu() {
-const app = document.getElementById('app');
-app.innerHTML = null;
-const menu = document.createElement('div');
-app.append(menu);
-menu.classList.add('menu');
+const _menu = document.createElement('div');
+app.append(_menu);
+_menu.classList.add('menu');
 const menuUl = document.createElement('ul');
-menu.append(menuUl);
+_menu.append(menuUl);
 menuUl.innerHTML = `
 <li class="btn"><a href="" class="enterBtn">Войти</a></li>
 <li class="btn"><a href="" class="regBtn">Регистрация</a></li>
+<li class="btn"><a href="" class="aboutBtn">Лучшие</a></li>
 <li class="btn"><a href="" class="aboutBtn">О проектe</a></li>
 <li class="btn"><a href="" class="exitBtn">Выход</a></li>
 `;
@@ -18,11 +17,12 @@ menuUl.innerHTML = `
 const enterBtn = document.querySelector('.enterBtn');
 enterBtn.addEventListener('click', (event)=>{
     event.preventDefault();
-    game();
+    location.hash = 'game'
 });
 const exitBtn = document.querySelector('.exitBtn');
 exitBtn.addEventListener('click', (event)=>{
     event.preventDefault();
     window.close();
 });
+return _menu;
 }
