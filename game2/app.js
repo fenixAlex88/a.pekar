@@ -8,6 +8,8 @@ import {aboutPage} from "./aboutPage.js";
 
 const app = document.getElementById('app');
 
+
+
 //функция выбора страниц по хэшу
 function switchToStateFromURLHash()  {
     app.innerHTML = null;
@@ -42,3 +44,5 @@ function switchToStateFromURLHash()  {
 location.hash = 'main';
 switchToStateFromURLHash();
 window.addEventListener('hashchange', switchToStateFromURLHash);
+
+

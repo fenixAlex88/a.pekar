@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+  async function reg() {
+    const username = 'Alex22'
+    const password = '12345';
+    const req = JSON.stringify({username, password});
+    try {
+        const result = await fetch('http://localhost:3000/auth/users', {
+            method: 'GET',
+        }).then((response) => {
+            return response.json();
+        });
+      console.log(result);
+    } catch (e) {
+      console.log('error: ', e);
+    }
+  }
+  reg();
+
+
+</script>
+</body>
+</html>

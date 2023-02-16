@@ -52,7 +52,7 @@ playerAvatar.src = 'assets/avatar1.png';
 playerAvatar.alt = 'avatar';
 const playerName = document.createElement('span');
 playerInfo.append(playerName);
-playerName.textContent = 'Name';
+playerName.textContent = JSON.parse(sessionStorage.player).username;
 
 //создание игрового сообщения
 const createMsg = (imgSrc, mess) => {

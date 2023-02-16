@@ -15,8 +15,8 @@ class AuthController {
             if (candidate) return res.status(400).json({message: 'Пользователь с таким именем уже существует'});
             const hashPassword = bcrypt.hashSync(password, 3);
             const user = new User({username, password: hashPassword});
-            await user.save();
-            return res.json({message: 'Пользователь успешно зарегистрирован'})
+            const newUser = await user.save();
+            return res.json({username: newUser._doc.username, id: newUser._doc._id, message: 'Пользователь успешно зарегистрирован'})
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Login error!!!'});

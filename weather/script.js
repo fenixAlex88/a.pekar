@@ -17,6 +17,8 @@ const fetchData = async () => {
                 .then((response) => {
                     return response.json();
                 });
+
+
                 console.log(data);
         const {
             current: {
