@@ -260,7 +260,27 @@ const createShoot = (x, y, z) => {
     }
 };
 
-const damage = (_damage) => {
+ async function saveScore() {
+        const _id = JSON.parse(sessionStorage.player).id;
+        try {
+            let response = await fetch('http://127.0.0.1:3000/auth/user', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({_id, score})
+            });
+            const result = await response.json();
+            console.log(result.message);
+        } catch (e) {
+            alert(e);
+        }
+
+        location.hash = 'main';
+    }
+
+
+    const damage = (_damage) => {
     r2d2_2.play();
     if (shield - _damage >= 0) {
         shield -= _damage
@@ -270,6 +290,7 @@ const damage = (_damage) => {
     }
     if (health <= 0) {
         isGame = false;
+        saveScore();
     }
 }
 let _shieldlock = false;
@@ -310,6 +331,7 @@ setTimeout(() => {
     createMsg('assets/solo.jpg', `ВНИМАНИЕ ПИЛОТ!!! 
     В зоне твоего полета найдены имперские штурмовики! Они не должны обнаружить местоположение нашей базы! Уничтожь их!`);
 }, 120000);
+
 
 //встроенные функции Babylon
 scene.registerBeforeRender(() => {

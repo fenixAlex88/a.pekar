@@ -16,7 +16,7 @@ class AuthController {
             const hashPassword = bcrypt.hashSync(password, 3);
             const user = new User({username, password: hashPassword});
             const newUser = await user.save();
-            return res.json({username: newUser._doc.username, id: newUser._doc._id, message: 'Пользователь успешно зарегистрирован'})
+            return res.json({username: newUser._doc.username, id: newUser._doc._id, message: 'Пользователь успешно зарегистрирован',auth: true})
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Login error!!!'});
@@ -34,7 +34,7 @@ class AuthController {
             if (!validPass) {
                 return res.status(400).json({message: `Пароль не верен!!!`})
             }
-
+            return res.json({username: user._doc.username, id: user._doc._id, message:"Вы успешно авторизованы",auth: true})
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Registration error!!!'})

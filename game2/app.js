@@ -9,7 +9,6 @@ import {aboutPage} from "./aboutPage.js";
 const app = document.getElementById('app');
 
 
-
 //функция выбора страниц по хэшу
 function switchToStateFromURLHash()  {
     app.innerHTML = null;

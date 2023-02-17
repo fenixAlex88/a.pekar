@@ -5,7 +5,7 @@ export function menuPage() {
         _menu.classList.add('menu');
         const menuUl = document.createElement('ul');
         _menu.append(menuUl);
-    if (sessionStorage.player) {
+    if (sessionStorage.auth==='true') {
         const gameBtnLi = document.createElement('li');
         menuUl.append(gameBtnLi);
         gameBtnLi.classList.add('btn');

@@ -54,13 +54,14 @@ export function registrationPage() {
                 body: JSON.stringify({username, password})
             });
             const result = await response.json();
+            sessionStorage.auth = result.auth;
             sessionStorage.player = JSON.stringify(result);
             alert(result.message);
         } catch (e) {
             alert(e);
         }
 
-        location.hash = 'game';
+        location.hash = 'main';
     }
 
 

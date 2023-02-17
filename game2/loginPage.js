@@ -30,6 +30,7 @@ export function loginPage() {
     enterBtn.classList.add('input');
     enterBtn.type = 'button';
     enterBtn.value = 'Войти';
+    enterBtn.onclick = log;
 
     const backBtn = document.createElement('input');
     loginForm.append(backBtn);
@@ -37,6 +38,29 @@ export function loginPage() {
     backBtn.type = 'button';
     backBtn.value = 'Назад';
     backBtn.onclick=()=>{window.history.go(-1)};
+
+    async function log() {
+        const username = userNameInput.value;
+        const password = passwordInput.value;
+        try {
+            let response = await fetch('http://127.0.0.1:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({username, password})
+            });
+            const result = await response.json();
+            sessionStorage.auth = result.auth;
+            sessionStorage.player = JSON.stringify(result);
+            console.log(result);
+            alert(result.message);
+        } catch (e) {
+            alert(e);
+        }
+
+        location.hash = 'main';
+    }
 
     return loginMenu;
 }
