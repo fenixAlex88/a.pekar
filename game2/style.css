@@ -277,8 +277,8 @@ input[type='button']:active {
     width: 20vh;
     bottom: 3vh;
     left: 2vw;
-    background: rgb(65,65,139);
-    background: radial-gradient(circle, rgba(65,65,139,1) 30%, rgba(0,212,255,1) 100%);
+    background: rgb(65, 65, 139);
+    background: radial-gradient(circle, rgba(65, 65, 139, 1) 30%, rgba(0, 212, 255, 1) 100%);
     border-radius: 50%;
 }
 
