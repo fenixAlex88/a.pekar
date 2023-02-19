@@ -40,8 +40,10 @@ function switchToStateFromURLHash()  {
             break;
     }
 }
+game();
+/*
 location.hash = 'main';
 switchToStateFromURLHash();
 window.addEventListener('hashchange', switchToStateFromURLHash);
-
+*/
 

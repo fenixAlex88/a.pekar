@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="createPlayer">
+    <input type="text" id="name">
+    <button>Создать</button>
+</div>
+<script>
+    class Player {
+        constructor() {
+            this.name = nameInput.value;
+        }
+
+        print() {
+            console.log(this.name);
+        }
+    }
+
+    const nameInput = document.querySelector('#name');
+    const wrap = document.querySelector('#createPlayer');
+    const btnCreate = document.querySelector('button');
+    let firstPlayer, secondPlayer;
+
+    btnCreate.addEventListener('click', () => {
+        if (nameInput.value) {
+            if (firstPlayer) {
+                secondPlayer = new Player();
+                wrap.classList.add('hide');
+            } else firstPlayer = new Player();
+        }
+    })
+</script>
+</body>
+</html>
