@@ -268,43 +268,44 @@ input[type='button']:active {
 
 #mobileControlShield {
     width: 14vh;
-    bottom: 20vh;
+    bottom: 30vh;
     left: 2vw;
 }
 
 #mobileControlShoot {
-    height: 14vh;
-    width: 14vh;
+    height: 20vh;
+    width: 20vh;
     bottom: 3vh;
     left: 2vw;
-    background-color: #ffffe9;
+    background: rgb(65,65,139);
+    background: radial-gradient(circle, rgba(65,65,139,1) 30%, rgba(0,212,255,1) 100%);
     border-radius: 50%;
 }
 
 #mobileControlUp {
     transform: rotateZ(270deg);
-    width: 14vh;
-    bottom: 15vh;
-    right: 5vw;
+    width: 20vh;
+    bottom: 22vh;
+    right: 7.5vw;
 }
 
 #mobileControlDown {
     transform: rotateZ(90deg);
-    width: 14vh;
+    width: 20vh;
     bottom: 0vh;
-    right: 5vw;
+    right: 7.5vw;
 }
 
 #mobileControlLeft {
     transform: rotateZ(180deg);
-    width: 14vh;
-    bottom: 8vh;
-    right: 10vw;
+    width: 20vh;
+    bottom: 10vh;
+    right: 15vw;
 }
 
 #mobileControlRight {
-    width: 14vh;
-    bottom: 8vh;
+    width: 20vh;
+    bottom: 10vh;
     right: 0vw;
 }
 

@@ -34,7 +34,7 @@ class AuthController {
             if (!validPass) {
                 return res.status(400).json({message: `Пароль не верен!!!`})
             }
-            return res.json({username: user._doc.username, id: user._doc._id, message:"Вы успешно авторизованы",auth: true})
+            return res.json({username: user._doc.username, id: user._doc._id, score: user.score,  message:"Вы успешно авторизованы",auth: true})
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Registration error!!!'})
@@ -43,8 +43,10 @@ class AuthController {
 
     async getUsers(req, res) {
         try {
-            const users = await User.find();
-            return res.json(users);
+            const users = await User.find().sort({score: -1}).limit(10);
+            return res.json(users.map((user)=>{
+                return {username: user.username, score: user.score}
+            }));
         } catch (e) {
             console.log(e);
             res.status(500).json(e.message)

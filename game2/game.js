@@ -55,6 +55,7 @@ export function game() {
     playerInfo.append(playerName);
     playerName.textContent = /*JSON.parse(sessionStorage.player).username*/'Player';
 
+//Обработка мобильных устройств
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
         .test(navigator.userAgent)) {
         console.log("Вы используете мобильное устройство (телефон или планшет).");
@@ -175,8 +176,7 @@ export function game() {
             z: 0
         },
         alf = Math.PI / 180,
-        s = 200,
-        s2 = 4;
+        s = 200;
     let ship,
         shield = 11,
         health = 21,
@@ -324,7 +324,10 @@ export function game() {
         }
         if (health <= 0) {
             isGame = false;
-            saveScore();
+            if (score > JSON.parse(sessionStorage.player).score) {
+                saveScore();
+            }
+            location.hash = 'main';
         }
     }
     let _shieldlock = false;
@@ -504,7 +507,6 @@ export function game() {
     })
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
-
 
     window.addEventListener('keydown', (e) => {
         console.log(e.keyCode);

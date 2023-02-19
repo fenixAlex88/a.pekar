@@ -1,4 +1,5 @@
 export function bestPage() {
+
     const bestPage = document.createElement('div');
     const bestPageHeader = document.createElement('h1');
     bestPage.append(bestPageHeader);
@@ -19,20 +20,21 @@ export function bestPage() {
     scoreTh.style.width = '10vw';
     scoreTh.textContent = 'Результат';
 
-    for (let i = 0; i < 10; i++) {
-        const tr = document.createElement('tr');
-        bestPageTable.append(tr);
-        const placeTd = document.createElement('td');
-        tr.append(placeTd);
-        placeTd.textContent = i + 1;
-        const nameTd = document.createElement('td');
-        tr.append(nameTd);
-        nameTd.textContent = 'Gamer';
-        const scoreTd = document.createElement('td');
-        tr.append(scoreTd);
-        scoreTd.textContent = i * 111;
-    }
-
+    getBests().then((bestPlayers)=>{
+        bestPlayers.forEach((player, i)=>{
+            const tr = document.createElement('tr');
+            bestPageTable.append(tr);
+            const placeTd = document.createElement('td');
+            tr.append(placeTd);
+            placeTd.textContent = i + 1;
+            const nameTd = document.createElement('td');
+            tr.append(nameTd);
+            nameTd.textContent = player.username;
+            const scoreTd = document.createElement('td');
+            tr.append(scoreTd);
+            scoreTd.textContent = player.score;
+        })
+    });
 
     const backBtn = document.createElement('a');
     bestPage.append(backBtn);
@@ -43,5 +45,18 @@ export function bestPage() {
     backBtn.onclick = () => {
         window.history.go(-1)
     };
+
+    async function getBests() {
+        try {
+            let response = await fetch('http://127.0.0.1:3000/auth/users', {
+                method: 'GET'
+            });
+            const result = await response.json();
+            return result;
+        } catch (e) {
+            alert(e);
+        }
+    }
+
     return bestPage;
 }

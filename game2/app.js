@@ -7,7 +7,8 @@ import {bestPage} from "./bestPage.js";
 import {aboutPage} from "./aboutPage.js";
 
 const app = document.getElementById('app');
-
+let myAudio = new Audio('./assets/audio/imperial-march.mp3');
+myAudio.play();
 
 //функция выбора страниц по хэшу
 function switchToStateFromURLHash()  {
@@ -18,6 +19,7 @@ function switchToStateFromURLHash()  {
             app.append(menuPage());
             break;
         case 'game':
+            myAudio.pause();
             game();
             break;
         case 'login':
@@ -27,6 +29,7 @@ function switchToStateFromURLHash()  {
             app.append(registrationPage());
             break;
         case 'about':
+            myAudio.pause();
             app.append(aboutPage());
             break;
         case 'best':
@@ -40,10 +43,11 @@ function switchToStateFromURLHash()  {
             break;
     }
 }
-game();
-/*
+
 location.hash = 'main';
 switchToStateFromURLHash();
 window.addEventListener('hashchange', switchToStateFromURLHash);
-*/
-
+window.addEventListener('dblclick',(e)=>{
+    e.preventDefault();
+    return false;
+})
