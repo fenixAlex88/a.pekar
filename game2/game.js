@@ -1,4 +1,5 @@
 import {Meteor} from "./Meteor.js";
+import {Shoot} from "./Shoot.js";
 
 export function game() {
 //СОЗДАНИЕ МИРА
@@ -53,7 +54,7 @@ export function game() {
     playerAvatar.alt = 'avatar';
     const playerName = document.createElement('span');
     playerInfo.append(playerName);
-    playerName.textContent = /*JSON.parse(sessionStorage.player).username*/'Player';
+    playerName.textContent = JSON.parse(sessionStorage.player).username;
 
 //Обработка мобильных устройств
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
@@ -96,15 +97,15 @@ export function game() {
 
         mobileControlUp.addEventListener('touchstart', () => ship.yPos += 0.1);
         mobileControlDown.addEventListener('touchstart', () => ship.yPos -= 0.1);
-        mobileControlLeft.addEventListener('touchstart', () => rotShip.y -= alf);
-        mobileControlRight.addEventListener('touchstart', () => rotShip.y += alf);
-        mobileControlShoot.addEventListener('touchstart', () => createShoot(Math.sin(rotShip.y), 0, Math.cos(rotShip.y)));
+        mobileControlLeft.addEventListener('touchstart', () => ship.rot.y -= alf);
+        mobileControlRight.addEventListener('touchstart', () => ship.rot.y += alf);
+        mobileControlShoot.addEventListener('touchstart', () => ship.shoot(Math.sin(ship.rot.y), 0, Math.cos(ship.rot.y)));
         mobileControlShield.addEventListener('touchstart', () => {
-            if (ship && !_shieldlock) {
-                createPowerShield();
+            if (ship && !ship.shieldlock) {
+                ship.shield();
                 powerShieldSound.play();
                 setTimeout(() => {
-                    _shield.destroy();
+                    ship._shield.destroy();
                     powerShieldSound.stop();
                     electroShieldInfo.style.width = '0';
                     electroShieldInfo.style.removeProperty('animation');
@@ -170,20 +171,13 @@ export function game() {
         shootArr = [],
         enemyshootArr = [],
         shipsArr = [],
-        rotShip = {
-            x: 0,
-            y: 0,
-            z: 0
-        },
         alf = Math.PI / 180,
         s = 200;
     let ship,
         shield = 11,
         health = 21,
         score = 0,
-        isGame = false,
-        lockshoot = false,
-        _shield;
+        isGame = false;
 //функция случайного числа между
     const rand = (a, b) => Math.floor(Math.random() * (b - a + 1) + a);
 
@@ -215,8 +209,74 @@ export function game() {
                 ship.yPos = 0;
                 camera.lockedTarget = ship;
                 ship.scaling = new BABYLON.Vector3(1.0, 1.0, 1.0);
-            }
-        );
+                ship.rot = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                    ship.shieldlock = false;
+                ship.lockshoot = false;
+                ship.shield = () => {
+                    ship._shield = new BABYLON.MeshBuilder.CreateSphere('sphere', scene);
+                    ship._shield.position = ship.position;
+                    ship._shield.material = new BABYLON.StandardMaterial('material', scene);
+                    ship._shield.material.emissiveTexture = new BABYLON.Texture('assets/shield.jpg');
+                    ship._shield.physicsImpostor = new BABYLON.PhysicsImpostor(ship._shield, BABYLON.PhysicsImpostor.SphereImpostor, {
+                        mass: 0
+                    }, scene);
+                    ship._shield.material.alpha = 0.4;
+                    ship._shield.scaling = new BABYLON.Vector3(7, 7.2, 6.5);
+                    ship._shield.xRot = 0;
+                    ship._shield.yRot = 0;
+                    ship._shield.zRot = 0;
+                    ship._shield.destroy = () => {
+                        ship._shield.dispose();
+                        delete ship._shield;
+                    };
+                    ship.shieldlock = true;
+                    electroShieldInfo.style.animation = 'electroShield-reducing  15s forwards';
+                };
+                ship.shoot = (xSpeed, ySpeed, zSpeed) => {
+                    if (!ship.lockshoot) {
+                        ship.lockshoot = true;
+                        const shoot = new Shoot(new BABYLON.Vector3(ship.position.x, ship.position.y + 0.1, ship.position.z),
+                            xSpeed,
+                            ySpeed,
+                            zSpeed,
+                            ship.rotation.y,
+                            new BABYLON.Color3(0, 0, 1));
+                        shootArr.push(shoot);
+                        shootSound.play();
+                        setTimeout(() => {
+                            ship.lockshoot = false
+                        }, 550);
+                    }
+                };
+                ship.damage = (_damage) => {
+                    r2d2_2.play();
+                    if (shield - _damage >= 0) {
+                        shield -= _damage
+                    } else {
+                        health -= (_damage - shield);
+                        shield = 0;
+                    }
+                    if (health <= 0) {
+                        isGame = false;
+                        if (score > JSON.parse(sessionStorage.player).score) {
+                            saveScore();
+                        }
+                        alert(`                     GAME OVER!!!\n                  Ваш результат ${score}`);
+                        location.hash = 'main';
+                    }
+                };
+                ship.move = () => {
+                    ship.position.x += 0.05 * Math.sin(ship.rot.y);
+                    ship.position.y = ship.yPos;
+                    ship.position.z += 0.05 * Math.cos(ship.rot.y);
+                    ship.rotation = new BABYLON.Vector3(ship.rot.x, ship.rot.y, ship.rot.z);
+                };
+            })
+
     }
     createShip();
 
@@ -235,23 +295,15 @@ export function game() {
                 enemysheep.scaling = new BABYLON.Vector3(0.005, 0.005, 0.005);
                 enemysheep.lockshoot = false;
                 enemysheep.health = 15;
-                enemysheep.shoot = (x, y, z) => {
+                enemysheep.shoot = (xSpeed, ySpeed, zSpeed) => {
                     if (!enemysheep.lockshoot) {
                         enemysheep.lockshoot = true;
-                        const shoot = new BABYLON.MeshBuilder.CreateCapsule("capsule",
-                            {
-                                radius: 0.08,
-                                height: 2,
-                                orientation: new BABYLON.Vector3(0, 0, 1)
-                            });
-                        shoot.rotation.y = ship.rotation.y;
-                        shoot.material = new BABYLON.StandardMaterial('material', scene);
-                        shoot.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
-                        shoot.position = new BABYLON.Vector3(enemysheep.position.x, enemysheep.position.y + 0.1, enemysheep.position.z);
-                        shoot.rotation.y = enemysheep.rotation.y;
-                        shoot.xSpeed = x;
-                        shoot.ySpeed = y;
-                        shoot.zSpeed = z;
+                        const shoot = new Shoot(new BABYLON.Vector3(enemysheep.position.x, enemysheep.position.y + 0.1, enemysheep.position.z),
+                            xSpeed,
+                            ySpeed,
+                            zSpeed,
+                            enemysheep.rotation.y,
+                            new BABYLON.Color3(0, 1, 0));
                         enemyshootArr.push(shoot);
                         setTimeout(() => {
                             enemysheep.lockshoot = false
@@ -270,30 +322,6 @@ export function game() {
     }
 //АЛГОРИТМ
 //функции
-    const createShoot = (x, y, z) => {
-        if (ship && !lockshoot) {
-            lockshoot = true;
-            const shoot = new BABYLON.MeshBuilder.CreateCapsule("capsule",
-                {
-                    radius: 0.08,
-                    height: 2,
-                    orientation: new BABYLON.Vector3(0, 0, 1)
-                });
-            shoot.rotation.y = ship.rotation.y;
-            shoot.material = new BABYLON.StandardMaterial('material', scene);
-            shoot.material.emissiveColor = new BABYLON.Color3(0, 0, 1);
-            shoot.position = new BABYLON.Vector3(ship.position.x, ship.position.y + 0.1, ship.position.z);
-            shoot.xSpeed = x;
-            shoot.ySpeed = y;
-            shoot.zSpeed = z;
-            shootArr.push(shoot);
-            shootSound.play();
-            setTimeout(() => {
-                lockshoot = false
-            }, 550);
-        }
-    };
-
     async function saveScore() {
         const _id = JSON.parse(sessionStorage.player).id;
         try {
@@ -311,45 +339,6 @@ export function game() {
         }
 
         location.hash = 'main';
-    }
-
-
-    const damage = (_damage) => {
-        r2d2_2.play();
-        if (shield - _damage >= 0) {
-            shield -= _damage
-        } else {
-            health -= (_damage - shield);
-            shield = 0;
-        }
-        if (health <= 0) {
-            isGame = false;
-            if (score > JSON.parse(sessionStorage.player).score) {
-                saveScore();
-            }
-            location.hash = 'main';
-        }
-    }
-    let _shieldlock = false;
-    const createPowerShield = () => {
-        _shield = new BABYLON.MeshBuilder.CreateSphere('sphere', scene);
-        _shield.position = ship.position;
-        _shield.material = new BABYLON.StandardMaterial('material', scene);
-        _shield.material.emissiveTexture = new BABYLON.Texture('assets/shield.jpg');
-        _shield.physicsImpostor = new BABYLON.PhysicsImpostor(_shield, BABYLON.PhysicsImpostor.SphereImpostor, {
-            mass: 0
-        }, scene);
-        _shield.material.alpha = 0.4;
-        _shield.scaling = new BABYLON.Vector3(7, 7.2, 6.5);
-        _shield.xRot = 0;
-        _shield.yRot = 0;
-        _shield.zRot = 0;
-        _shield.destroy = () => {
-            _shield.dispose();
-            _shield = null;
-        };
-        _shieldlock = true;
-        electroShieldInfo.style.animation = 'electroShield-reducing  15s forwards';
     }
 
     setTimeout(() => {
@@ -398,18 +387,16 @@ export function game() {
 
         })
 
-        if (_shield) {
-            _shield.xRot += 0.23;
-            _shield.xRot += 0.30;
-            _shield.xRot += 0.27;
-            _shield.rotation = new BABYLON.Vector3(_shield.xRot, _shield.yRot, _shield.zRot);
-            _shield.position = ship.position;
+        if (ship._shield) {
+            ship._shield.xRot += 0.23;
+            ship._shield.xRot += 0.30;
+            ship._shield.xRot += 0.27;
+            ship._shield.rotation = new BABYLON.Vector3(ship._shield.xRot, ship._shield.yRot, ship._shield.zRot);
+            ship._shield.position = ship.position;
         }
 
         enemyshootArr.forEach((shoot, index) => {
-            shoot.position.x += shoot.xSpeed;
-            shoot.position.y += shoot.ySpeed;
-            shoot.position.z += shoot.zSpeed;
+            shoot.move();
 
             if (Math.abs(shoot.position.x - ship.position.x) < 1.5 &&
                 Math.abs(shoot.position.y - ship.position.y) < 1.5 &&
@@ -417,14 +404,12 @@ export function game() {
                 shoot.dispose();
                 enemyshootArr.splice(index, 1);
 
-                if (!_shield) damage(5);
+                if (!ship._shield) ship.damage(5);
             }
         })
 
         shootArr.forEach((shoot, index) => {
-            shoot.position.x += shoot.xSpeed;
-            shoot.position.y += shoot.ySpeed;
-            shoot.position.z += shoot.zSpeed;
+            shoot.move();
 
             if (ship && (Math.abs(shoot.position.x - ship.position.x) > 200 ||
                 Math.abs(shoot.position.y - ship.position.y) > 200 ||
@@ -468,7 +453,7 @@ export function game() {
                     Math.abs(meteor.position.z - ship.position.z) < 2) {
                     meteor.destroy();
                     meteorArr.splice(i, 1);
-                    if (!_shield) damage(20);
+                    if (!ship._shield) ship.damage(20);
                 }
                 if (Math.abs(meteor.position.x - ship.position.x) > 100 ||
                     Math.abs(meteor.position.y - ship.position.y) > 100 ||
@@ -488,12 +473,7 @@ export function game() {
                 }
             })
         })
-        if (ship) {
-            ship.position.x += 0.05 * Math.sin(rotShip.y);
-            ship.position.y = ship.yPos;
-            ship.position.z += 0.05 * Math.cos(rotShip.y);
-            ship.rotation = new BABYLON.Vector3(rotShip.x, rotShip.y, rotShip.z);
-        }
+        if (ship) ship.move();
 
 //Изменения интерфейса
         scoreInfo.textContent = score;
@@ -507,32 +487,31 @@ export function game() {
     })
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
-
     window.addEventListener('keydown', (e) => {
         console.log(e.keyCode);
         switch (e.keyCode) {
             case 37:
-                rotShip.y -= alf;
-                rotShip.z = 20 * alf;
+                ship.rot.y -= alf;
+                ship.rot.z = 20 * alf;
                 break;
             case 39:
-                rotShip.y += alf;
-                rotShip.z = -20 * alf;
+                ship.rot.y += alf;
+                ship.rot.z = -20 * alf;
                 break;
             case 38:
                 ship.yPos += 0.1;
-                rotShip.x = -7 * alf;
+                ship.rot.x = -7 * alf;
                 break;
             case 40:
                 ship.yPos -= 0.1;
-                rotShip.x = 7 * alf;
+                ship.rot.x = 7 * alf;
                 break;
             case 16:
-                if (ship && !_shieldlock) {
-                    createPowerShield();
+                if (ship && !ship.shieldlock) {
+                    ship.shield();
                     powerShieldSound.play();
                     setTimeout(() => {
-                        _shield.destroy();
+                        ship._shield.destroy();
                         powerShieldSound.stop();
                         electroShieldInfo.style.width = '0';
                         electroShieldInfo.style.removeProperty('animation');
@@ -544,16 +523,19 @@ export function game() {
 
     window.addEventListener('keyup', (e) => {
         if (e.keyCode === 37 || e.keyCode === 39) {
-            rotShip.z = 0;
+            ship.rot.z = 0;
         }
         if (e.keyCode === 38 || e.keyCode === 40) {
-            rotShip.x = 0;
+            ship.rot.x = 0;
         }
     })
     window.addEventListener('keypress', (e) => {
         if (e.keyCode === 32) {
-            createShoot(Math.sin(rotShip.y), 0, Math.cos(rotShip.y));
+            ship.shoot(Math.sin(ship.rot.y), 0, Math.cos(ship.rot.y));
 
         }
     })
+    window.onbeforeunload = function () {
+        return "Are you sure?";
+    }
 }
