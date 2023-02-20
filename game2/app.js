@@ -8,7 +8,7 @@ import {aboutPage} from "./aboutPage.js";
 
 const app = document.getElementById('app');
 let myAudio = new Audio('./assets/audio/imperial-march.mp3');
-myAudio.play();
+//myAudio.play();
 
 //функция выбора страниц по хэшу
 function switchToStateFromURLHash()  {
@@ -47,7 +47,9 @@ function switchToStateFromURLHash()  {
 location.hash = 'main';
 switchToStateFromURLHash();
 window.addEventListener('hashchange', switchToStateFromURLHash);
-window.addEventListener('dblclick',(e)=>{
+window.addEventListener('dbclick',(e)=>{
+    console.log(1);
+    e.stopPropagation();
     e.preventDefault();
     return false;
 })
