@@ -1,12 +1,12 @@
-export function aboutPage(){
-    const about = document.createElement('div');
-    app.append(about);
+export function aboutPage() {
+    const fragment = document.createDocumentFragment();
+    app.append(fragment);
     const aboutHeader = document.createElement('h1');
-    about.append(aboutHeader);
+    fragment.append(aboutHeader);
     aboutHeader.textContent = 'О проектe';
 
     const backBtn = document.createElement('a');
-    about.append(backBtn);
+    fragment.append(backBtn);
     backBtn.classList.add('input');
     backBtn.style.float = 'right';
     backBtn.textContent = 'Назад';
@@ -16,28 +16,20 @@ export function aboutPage(){
     };
 
     const aboutText = document.createElement('div');
-    about.append(aboutText);
+    fragment.append(aboutText);
     aboutText.classList.add('aboutText', 'a-pos');
     const aboutTextContent = document.createElement('p');
     aboutText.append(aboutTextContent);
-    aboutTextContent.textContent=`
-            WebDesignMagazine.ru – это сайт, который является ведущим в Рунете онлайн сообществом для веб-дизайнеров и
-            разработчиков. Мы публикуем новости веб-дизайна, интересные уроки и обзоры, современные тенденции дизайна,
-            тем
-            самым представляя возможность нашим читателям обмениваться опытом и знаниями, советами и подсказками. Только
-            здесь вы найдете подробные обучающие статьи по Вордпрессу, HTML5, CSS, jQuery, узнаете секреты современного
-            веб-дизайна.
+    aboutTextContent.innerHTML = 'Давным-давнo,<br> ' +
+        'в далекой-далекой галактике <br>' +
+        'была разработана игра... <br><br>' +
+        'Данная игра разработана в рамках выпускного проекта по курсу "Разработка веб-приложений на JavaScript"<br><br>' +
+        'Игра создана с использованием JavaScript-фреймворкa Babylon.js, <br>' +
+        'использующего API WebGL для отображения 2D и 3D-графики в браузере.<br><br>' +
+        'В игре использованы 3D модели:<br>' +
+        '"Xwing" by GaryPhelps licensed under CC-BY-4.0<br>' +
+        '"Star Wars: TIE Fighter" by Daniel licensed under CC-BY-4.0<br><br>' +
+        '&copy 2023 Alexey Pekar';
 
-            За несколько месяцев работы число наших читателей и колличество участников социальных сетей достигло более
-            6000
-            человек! И это только начало!
-
-            Мы публикуем только то, что интересно читателям и относится к веб-дизайну. Если у вас есть какие-либо
-            вопросы,
-            предложения по работе и развитию сайта, вы хотите провести конкурс или разыграть что-либо – напишите нам
-            пару
-            строк! Мы будем рады Вас слышать!
-    `;
-
-return about;
+    return fragment;
 }

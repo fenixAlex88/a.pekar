@@ -1,5 +1,6 @@
 import {Meteor} from "./Meteor.js";
 import {Shoot} from "./Shoot.js";
+import {userAPImodule} from "./userAPI.module.js";
 
 export function game() {
 //СОЗДАНИЕ МИРА
@@ -59,7 +60,6 @@ export function game() {
 //Обработка мобильных устройств
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
         .test(navigator.userAgent)) {
-        console.log("Вы используете мобильное устройство (телефон или планшет).");
         const mobileControlUp = document.createElement('img');
         app.append(mobileControlUp);
         mobileControlUp.src = 'assets/arrow.svg';
@@ -140,10 +140,7 @@ export function game() {
     scene.clearColor = new BABYLON.Color3(0.3, 0.3, 0.3);  //0-1
     scene.enablePhysics();
     scene.createDefaultEnvironment({
-        createSkybox: false,
-        createGround: false,
-        cameraContrast: 2.5,
-        cameraExposure: 1
+        createSkybox: false, createGround: false, cameraContrast: 2.5, cameraExposure: 1
     });
 //Создание космоса
     const skybox = new BABYLON.MeshBuilder.CreateBox('skyBox', {size: 7000}, scene);
@@ -167,28 +164,17 @@ export function game() {
     const shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
 
 //СОЗДАНИЕ ПЕРЕМЕННЫХ
-    const meteorArr = [],
-        shootArr = [],
-        enemyshootArr = [],
-        shipsArr = [],
-        alf = Math.PI / 180,
-        s = 200;
-    let ship,
-        shield = 11,
-        health = 21,
-        score = 0,
-        isGame = false;
+    const meteorArr = [], shootArr = [], enemyshootArr = [], shipsArr = [], alf = Math.PI / 180, s = 200;
+    let ship, shield = 11, health = 21, score = 0, isGame = false;
 //функция случайного числа между
     const rand = (a, b) => Math.floor(Math.random() * (b - a + 1) + a);
 
 //создание звуков
 
     const shootSound = new BABYLON.Sound("shoot", "assets/audio/shoot.mp3", scene);
-    const fightSound = new BABYLON.Sound("explosion", "assets/audio/fight.mp3", scene, null, {loop: true});
     const explosionSound = new BABYLON.Sound("explosion", "assets/audio/explosion.mp3", scene);
     const powerShieldSound = new BABYLON.Sound("explosion", "assets/audio/power_shield2.mp3", scene, null, {
-        loop: true,
-        playbackRate: 2.5
+        loop: true, playbackRate: 2.5
     });
     const r2d2_1 = new BABYLON.Sound("shoot", "assets/audio/r2d2_1.mp3", scene);
     const r2d2_2 = new BABYLON.Sound("shoot", "assets/audio/r2d2_2.mp3", scene);
@@ -196,149 +182,108 @@ export function game() {
 
 //Создание корабля
     const createShip = () => {
-        BABYLON.SceneLoader.ImportMesh(
-            null,
-            'assets/x_wing/',
-            'scene.gltf',
-            scene,
-            (meshArray) => {
-                ship = meshArray[0];
-                ship.position = new BABYLON.Vector3(0.0, 0.0, 0);
-                shadowGenerator.addShadowCaster(ship);
-                ship.receiveShadows = true;
-                ship.yPos = 0;
-                camera.lockedTarget = ship;
-                ship.scaling = new BABYLON.Vector3(1.0, 1.0, 1.0);
-                ship.rot = {
-                    x: 0,
-                    y: 0,
-                    z: 0
-                },
-                    ship.shieldlock = false;
-                ship.lockshoot = false;
-                ship.shield = () => {
-                    ship._shield = new BABYLON.MeshBuilder.CreateSphere('sphere', scene);
-                    ship._shield.position = ship.position;
-                    ship._shield.material = new BABYLON.StandardMaterial('material', scene);
-                    ship._shield.material.emissiveTexture = new BABYLON.Texture('assets/shield.jpg');
-                    ship._shield.physicsImpostor = new BABYLON.PhysicsImpostor(ship._shield, BABYLON.PhysicsImpostor.SphereImpostor, {
-                        mass: 0
-                    }, scene);
-                    ship._shield.material.alpha = 0.4;
-                    ship._shield.scaling = new BABYLON.Vector3(7, 7.2, 6.5);
-                    ship._shield.xRot = 0;
-                    ship._shield.yRot = 0;
-                    ship._shield.zRot = 0;
-                    ship._shield.destroy = () => {
-                        ship._shield.dispose();
-                        delete ship._shield;
-                    };
-                    ship.shieldlock = true;
-                    electroShieldInfo.style.animation = 'electroShield-reducing  15s forwards';
+        BABYLON.SceneLoader.ImportMesh(null, 'assets/x_wing/', 'scene.gltf', scene, (meshArray) => {
+            ship = meshArray[0];
+            ship.position = new BABYLON.Vector3(0.0, 0.0, 0);
+            shadowGenerator.addShadowCaster(ship);
+            ship.receiveShadows = true;
+            ship.yPos = 0;
+            camera.lockedTarget = ship;
+            ship.scaling = new BABYLON.Vector3(1.0, 1.0, 1.0);
+            ship.rot = {
+                x: 0, y: 0, z: 0
+            }, ship.shieldlock = false;
+            ship.lockshoot = false;
+            ship.shield = () => {
+                ship._shield = new BABYLON.MeshBuilder.CreateSphere('sphere', scene);
+                ship._shield.position = ship.position;
+                ship._shield.material = new BABYLON.StandardMaterial('material', scene);
+                ship._shield.material.emissiveTexture = new BABYLON.Texture('assets/shield.jpg');
+                ship._shield.physicsImpostor = new BABYLON.PhysicsImpostor(ship._shield, BABYLON.PhysicsImpostor.SphereImpostor, {
+                    mass: 0
+                }, scene);
+                ship._shield.material.alpha = 0.4;
+                ship._shield.scaling = new BABYLON.Vector3(7, 7.2, 6.5);
+                ship._shield.xRot = 0;
+                ship._shield.yRot = 0;
+                ship._shield.zRot = 0;
+                ship._shield.destroy = () => {
+                    ship._shield.dispose();
+                    delete ship._shield;
                 };
-                ship.shoot = (xSpeed, ySpeed, zSpeed) => {
-                    if (!ship.lockshoot) {
-                        ship.lockshoot = true;
-                        const shoot = new Shoot(new BABYLON.Vector3(ship.position.x, ship.position.y + 0.1, ship.position.z),
-                            xSpeed,
-                            ySpeed,
-                            zSpeed,
-                            ship.rotation.y,
-                            new BABYLON.Color3(0, 0, 1));
-                        shootArr.push(shoot);
-                        shootSound.play();
-                        setTimeout(() => {
-                            ship.lockshoot = false
-                        }, 550);
-                    }
-                };
-                ship.damage = (_damage) => {
-                    r2d2_2.play();
-                    if (shield - _damage >= 0) {
-                        shield -= _damage
-                    } else {
-                        health -= (_damage - shield);
-                        shield = 0;
-                    }
-                    if (health <= 0) {
-                        isGame = false;
-                        if (score > JSON.parse(sessionStorage.player).score) {
-                            saveScore();
-                        }
-                        alert(`                     GAME OVER!!!\n                  Ваш результат ${score}`);
-                        location.hash = 'main';
-                    }
-                };
-                ship.move = () => {
-                    ship.position.x += 0.05 * Math.sin(ship.rot.y);
-                    ship.position.y = ship.yPos;
-                    ship.position.z += 0.05 * Math.cos(ship.rot.y);
-                    ship.rotation = new BABYLON.Vector3(ship.rot.x, ship.rot.y, ship.rot.z);
-                };
-            })
+                ship.shieldlock = true;
+                electroShieldInfo.style.animation = 'electroShield-reducing  15s forwards';
+            };
+            ship.shoot = (xSpeed, ySpeed, zSpeed) => {
+                if (!ship.lockshoot) {
+                    ship.lockshoot = true;
+                    const shoot = new Shoot(new BABYLON.Vector3(ship.position.x, ship.position.y + 0.1, ship.position.z), xSpeed, ySpeed, zSpeed, ship.rotation.y, new BABYLON.Color3(0, 0, 1));
+                    shootArr.push(shoot);
+                    shootSound.play();
+                    setTimeout(() => {
+                        ship.lockshoot = false
+                    }, 550);
+                }
+            };
+            ship.damage = (_damage) => {
+                r2d2_2.play();
+                if (shield - _damage >= 0) {
+                    shield -= _damage
+                } else {
+                    health -= (_damage - shield);
+                    shield = 0;
+                }
+                if (health <= 0) {
+                    gameOver();
+                    alert(`                     GAME OVER!!!\n                  Ваш результат ${score}`);
+                    location.hash = 'main';
+                }
+            };
+            ship.move = () => {
+                ship.position.x += 0.05 * Math.sin(ship.rot.y);
+                ship.position.y = ship.yPos;
+                ship.position.z += 0.05 * Math.cos(ship.rot.y);
+                ship.rotation = new BABYLON.Vector3(ship.rot.x, ship.rot.y, ship.rot.z);
+            };
+        })
 
     }
     createShip();
 
     const createEnemyShip = () => {
-        BABYLON.SceneLoader.ImportMesh(
-            null,
-            'assets/tie/',
-            'scene.gltf',
-            scene,
-            (meshArray) => {
-                const enemysheep = meshArray[0];
-                enemysheep.position = new BABYLON.Vector3(ship.position.x + rand(-75, 75), ship.position.y + rand(-50, 50), ship.position.z + rand(200, 250));
-                shadowGenerator.addShadowCaster(enemysheep);
-                enemysheep.receiveShadows = true;
-                enemysheep.yPos = 0;
-                enemysheep.scaling = new BABYLON.Vector3(0.005, 0.005, 0.005);
-                enemysheep.lockshoot = false;
-                enemysheep.health = 15;
-                enemysheep.shoot = (xSpeed, ySpeed, zSpeed) => {
-                    if (!enemysheep.lockshoot) {
-                        enemysheep.lockshoot = true;
-                        const shoot = new Shoot(new BABYLON.Vector3(enemysheep.position.x, enemysheep.position.y + 0.1, enemysheep.position.z),
-                            xSpeed,
-                            ySpeed,
-                            zSpeed,
-                            enemysheep.rotation.y,
-                            new BABYLON.Color3(0, 1, 0));
-                        enemyshootArr.push(shoot);
-                        setTimeout(() => {
-                            enemysheep.lockshoot = false
-                        }, 2000);
-                    }
+        BABYLON.SceneLoader.ImportMesh(null, 'assets/tie/', 'scene.gltf', scene, (meshArray) => {
+            const enemysheep = meshArray[0];
+            enemysheep.position = new BABYLON.Vector3(ship.position.x + rand(-75, 75), ship.position.y + rand(-50, 50), ship.position.z + rand(200, 250));
+            shadowGenerator.addShadowCaster(enemysheep);
+            enemysheep.receiveShadows = true;
+            enemysheep.yPos = 0;
+            enemysheep.scaling = new BABYLON.Vector3(0.005, 0.005, 0.005);
+            enemysheep.lockshoot = false;
+            enemysheep.health = 15;
+            enemysheep.shoot = (xSpeed, ySpeed, zSpeed) => {
+                if (!enemysheep.lockshoot) {
+                    enemysheep.lockshoot = true;
+                    const shoot = new Shoot(new BABYLON.Vector3(enemysheep.position.x, enemysheep.position.y + 0.1, enemysheep.position.z), xSpeed, ySpeed, zSpeed, enemysheep.rotation.y, new BABYLON.Color3(0, 1, 0));
+                    enemyshootArr.push(shoot);
+                    setTimeout(() => {
+                        enemysheep.lockshoot = false
+                    }, 2000);
                 }
-                enemysheep.rotEnemyShip = {
-                    x: 0,
-                    y: Math.PI,
-                    z: 0,
-                    cur: 0
-                };
-                shipsArr.push(enemysheep);
             }
-        );
+            enemysheep.rotEnemyShip = {
+                x: 0, y: Math.PI, z: 0, cur: 0
+            };
+            shipsArr.push(enemysheep);
+        });
     }
 //АЛГОРИТМ
 //функции
-    async function saveScore() {
-        const _id = JSON.parse(sessionStorage.player).id;
-        try {
-            let response = await fetch('http://127.0.0.1:3000/auth/user', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({_id, score})
-            });
-            const result = await response.json();
-            console.log(result.message);
-        } catch (e) {
-            alert(e);
-        }
-
-        location.hash = 'main';
+    function gameOver(){
+        if (timerEnemyMsg) clearTimeout(timerEnemyMsg);
+        isGame = false;
+        window.removeEventListener('keydown', controls);
+        if (!JSON.parse(sessionStorage.player).score || score > JSON.parse(sessionStorage.player).score)
+            userAPImodule.saveScore(JSON.parse(sessionStorage.player).id, score);
     }
 
     setTimeout(() => {
@@ -347,17 +292,26 @@ export function game() {
         isGame = true;
         createMsg('assets/solo.jpg', `ВНИМАНИЕ ПИЛОТ!!! 
     Твоим первым заданием будет очистка пояса астероидов. Уничтожь как можно больше камней за 5 минут. Расчисти путь для флота повстанцев!!!`);
-    }, 5000);
+    }, 3000);
 
-    setTimeout(() => {
-        for (let i = 0; i <= 2; i++) {
+    const timerEnemyMsg = setTimeout(() => {
+        for (let i = 0; i < 1; i++) {
             createEnemyShip();
         }
-        fightSound.play();
         createMsg('assets/solo.jpg', `ВНИМАНИЕ ПИЛОТ!!! 
     В зоне твоего полета найдены имперские штурмовики! Они не должны обнаружить местоположение нашей базы! Уничтожь их!`);
-    }, 120000);
+    }, 60000);
 
+    function videoWin() {
+        app.innerHTML = null;
+        const video = document.createElement('video');
+        app.append(video);
+        video.src = './assets/video/video_win.mp4';
+        video.style.width = '100%';
+        video.style.height = '100vh';
+        video.controls = false;
+        video.autoplay = "autoplay";
+    }
 
 //встроенные функции Babylon
     scene.registerBeforeRender(() => {
@@ -365,9 +319,7 @@ export function game() {
         shipsArr.forEach((_ship, i) => {
             _ship.shoot(Math.sin(_ship.rotEnemyShip.y), 0, Math.cos(_ship.rotEnemyShip.y));
 
-            if (Math.abs(_ship.position.x - ship.position.x) > 250 ||
-                Math.abs(_ship.position.y - ship.position.y) > 100 ||
-                Math.abs(_ship.position.z - ship.position.z) > 250) {
+            if (Math.abs(_ship.position.x - ship.position.x) > 250 || Math.abs(_ship.position.y - ship.position.y) > 100 || Math.abs(_ship.position.z - ship.position.z) > 250) {
                 _ship.dispose();
                 shipsArr.splice(i, 1);
             }
@@ -387,7 +339,7 @@ export function game() {
 
         })
 
-        if (ship._shield) {
+        if (ship && ship._shield) {
             ship._shield.xRot += 0.23;
             ship._shield.xRot += 0.30;
             ship._shield.xRot += 0.27;
@@ -398,9 +350,7 @@ export function game() {
         enemyshootArr.forEach((shoot, index) => {
             shoot.move();
 
-            if (Math.abs(shoot.position.x - ship.position.x) < 1.5 &&
-                Math.abs(shoot.position.y - ship.position.y) < 1.5 &&
-                Math.abs(shoot.position.z - ship.position.z) < 1.5) {
+            if (Math.abs(shoot.position.x - ship.position.x) < 1.5 && Math.abs(shoot.position.y - ship.position.y) < 1.5 && Math.abs(shoot.position.z - ship.position.z) < 1.5) {
                 shoot.dispose();
                 enemyshootArr.splice(index, 1);
 
@@ -411,17 +361,14 @@ export function game() {
         shootArr.forEach((shoot, index) => {
             shoot.move();
 
-            if (ship && (Math.abs(shoot.position.x - ship.position.x) > 200 ||
-                Math.abs(shoot.position.y - ship.position.y) > 200 ||
-                Math.abs(shoot.position.z - ship.position.z) > 200)) {
+            if (ship && (Math.abs(shoot.position.x - ship.position.x) > 200 || Math.abs(shoot.position.y - ship.position.y) > 200 || Math.abs(shoot.position.z - ship.position.z) > 200)) {
                 shoot.dispose();
                 shootArr.splice(index, 1);
             }
 
+
             shipsArr.forEach((ship, i) => {
-                if (Math.abs(shoot.position.x - ship.position.x) < 1.5 &&
-                    Math.abs(shoot.position.y - ship.position.y) < 1.5 &&
-                    Math.abs(shoot.position.z - ship.position.z) < 1.5) {
+                if (Math.abs(shoot.position.x - ship.position.x) < 1.5 && Math.abs(shoot.position.y - ship.position.y) < 1.5 && Math.abs(shoot.position.z - ship.position.z) < 1.5) {
                     shoot.dispose();
                     shootArr.splice(index, 1);
                     ship.health = -5;
@@ -430,34 +377,38 @@ export function game() {
                         shipsArr.splice(i, 1);
                         score += 100;
                         explosionSound.play();
+                        if (!shipsArr.length) {
+                            createMsg('assets/solo.jpg', `ПИЛОТ!!! 
+    Ты справился и уничтожил патруль! Возвращайся на базу!`);
+                            setTimeout(() => {
+                                gameOver();
+                                videoWin();
+                            }, 20000);
+                            setTimeout(() => {
+                                location.hash = 'main';
+                            }, 30000);
+                        }
                     }
                 }
             })
         })
-
+//Создание метеоритов
         for (let i = 0; i <= s - meteorArr.length; i++) {
-            const position = ship ?
-                new BABYLON.Vector3(ship.position.x + rand(-100, 100), ship.position.y + rand(-100, 100), ship.position.z + rand(-100, 100))
-                : new BABYLON.Vector3(rand(-100, 100), rand(-100, 100), rand(-100, 100));
+            const position = ship ? new BABYLON.Vector3(ship.position.x + rand(-100, 100), ship.position.y + rand(-100, 100), ship.position.z + rand(-100, 100)) : new BABYLON.Vector3(rand(-100, 100), rand(-100, 100), rand(-100, 100));
             meteorArr.push(new Meteor(position, explosionSound, 'sphere', {
-                diameter: rand(1, 6),
-                segments: 8
+                diameter: rand(1, 6), segments: 8
             }, scene))
         }
 
 
         meteorArr.forEach((meteor, i) => {
             if (ship) {
-                if (Math.abs(meteor.position.x - ship.position.x) < 2 &&
-                    Math.abs(meteor.position.y - ship.position.y) < 2 &&
-                    Math.abs(meteor.position.z - ship.position.z) < 2) {
+                if (Math.abs(meteor.position.x - ship.position.x) < 2 && Math.abs(meteor.position.y - ship.position.y) < 2 && Math.abs(meteor.position.z - ship.position.z) < 2) {
                     meteor.destroy();
                     meteorArr.splice(i, 1);
                     if (!ship._shield) ship.damage(20);
                 }
-                if (Math.abs(meteor.position.x - ship.position.x) > 100 ||
-                    Math.abs(meteor.position.y - ship.position.y) > 100 ||
-                    Math.abs(meteor.position.z - ship.position.z) > 100) {
+                if (Math.abs(meteor.position.x - ship.position.x) > 100 || Math.abs(meteor.position.y - ship.position.y) > 100 || Math.abs(meteor.position.z - ship.position.z) > 100) {
                     meteor.dispose();
                     meteorArr.splice(i, 1);
 
@@ -487,9 +438,13 @@ export function game() {
     })
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
-    window.addEventListener('keydown', (e) => {
-        console.log(e.keyCode);
+    window.addEventListener('keydown', controls);
+
+    function controls(e) {
         switch (e.keyCode) {
+            case 192:
+                ship.damage(5000);
+                break;
             case 37:
                 ship.rot.y -= alf;
                 ship.rot.z = 20 * alf;
@@ -506,6 +461,9 @@ export function game() {
                 ship.yPos -= 0.1;
                 ship.rot.x = 7 * alf;
                 break;
+            case 32:
+                ship.shoot(Math.sin(ship.rot.y), 0, Math.cos(ship.rot.y));
+                break;
             case 16:
                 if (ship && !ship.shieldlock) {
                     ship.shield();
@@ -519,7 +477,7 @@ export function game() {
                 }
                 break;
         }
-    })
+    }
 
     window.addEventListener('keyup', (e) => {
         if (e.keyCode === 37 || e.keyCode === 39) {
@@ -529,12 +487,7 @@ export function game() {
             ship.rot.x = 0;
         }
     })
-    window.addEventListener('keypress', (e) => {
-        if (e.keyCode === 32) {
-            ship.shoot(Math.sin(ship.rot.y), 0, Math.cos(ship.rot.y));
 
-        }
-    })
     window.onbeforeunload = function () {
         return "Are you sure?";
     }

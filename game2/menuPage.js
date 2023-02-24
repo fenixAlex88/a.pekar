@@ -1,11 +1,11 @@
 export function menuPage() {
-
-        const _menu = document.createElement('div');
-        app.append(_menu);
-        _menu.classList.add('menu');
-        const menuUl = document.createElement('ul');
-        _menu.append(menuUl);
-    if (sessionStorage.auth==='true') {
+    const fragment = document.createDocumentFragment();
+    const _menu = document.createElement('div');
+    fragment.append(_menu);
+    _menu.classList.add('menu');
+    const menuUl = document.createElement('ul');
+    _menu.append(menuUl);
+    if (sessionStorage.auth === 'true') {
         const gameBtnLi = document.createElement('li');
         menuUl.append(gameBtnLi);
         gameBtnLi.classList.add('btn');
@@ -73,5 +73,5 @@ export function menuPage() {
         location.hash = 'exit'
     };
 
-    return _menu;
+    return fragment;
 }

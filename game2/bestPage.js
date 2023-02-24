@@ -1,11 +1,13 @@
+import {userAPImodule} from "./userAPI.module.js";
+
 export function bestPage() {
 
-    const bestPage = document.createElement('div');
+    const fragment = document.createDocumentFragment();
     const bestPageHeader = document.createElement('h1');
-    bestPage.append(bestPageHeader);
+    fragment.append(bestPageHeader);
     bestPageHeader.textContent = 'Лучшие игроки';
     const bestPageTable = document.createElement('table');
-    bestPage.append(bestPageTable);
+    fragment.append(bestPageTable);
     const tr = document.createElement('tr');
     bestPageTable.append(tr);
     const placeTh = document.createElement('th');
@@ -19,9 +21,11 @@ export function bestPage() {
     tr.append(scoreTh);
     scoreTh.style.width = '10vw';
     scoreTh.textContent = 'Результат';
+    //Отрисовка таблицы результатов
+    userAPImodule.getBests(renderTable);
 
-    getBests().then((bestPlayers)=>{
-        bestPlayers.forEach((player, i)=>{
+    function renderTable(res) {
+        res.forEach((player, i) => {
             const tr = document.createElement('tr');
             bestPageTable.append(tr);
             const placeTd = document.createElement('td');
@@ -34,10 +38,11 @@ export function bestPage() {
             tr.append(scoreTd);
             scoreTd.textContent = player.score;
         })
-    });
+    }
 
+//Кнопка НАЗАД
     const backBtn = document.createElement('a');
-    bestPage.append(backBtn);
+    fragment.append(backBtn);
     backBtn.classList.add('input');
     backBtn.style.float = 'right';
     backBtn.textContent = 'Назад';
@@ -46,17 +51,5 @@ export function bestPage() {
         window.history.go(-1)
     };
 
-    async function getBests() {
-        try {
-            let response = await fetch('http://127.0.0.1:3000/auth/users', {
-                method: 'GET'
-            });
-            const result = await response.json();
-            return result;
-        } catch (e) {
-            alert(e);
-        }
-    }
-
-    return bestPage;
+    return fragment;
 }

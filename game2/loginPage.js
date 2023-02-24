@@ -1,6 +1,9 @@
+import {userAPImodule} from "./userAPI.module.js";
+
 export function loginPage() {
+    const fragment = document.createDocumentFragment();
     const loginMenu = document.createElement('div');
-    app.append(loginMenu);
+    fragment.append(loginMenu);
     loginMenu.classList.add('menu');
     const loginForm = document.createElement('form');
     loginMenu.append(loginForm);
@@ -10,7 +13,7 @@ export function loginPage() {
     userNameInfo.textContent = 'Имя игрока:';
     const userNameInput = document.createElement('input');
     loginForm.append(userNameInput);
-    userNameInput.classList.add ('input');
+    userNameInput.classList.add('input');
     userNameInput.type = 'text';
     userNameInput.name = 'user_name';
 
@@ -30,37 +33,16 @@ export function loginPage() {
     enterBtn.classList.add('input');
     enterBtn.type = 'button';
     enterBtn.value = 'Войти';
-    enterBtn.onclick = log;
+    enterBtn.addEventListener('click', ()=>{userAPImodule.login(userNameInput.value, passwordInput.value)});
 
     const backBtn = document.createElement('input');
     loginForm.append(backBtn);
     backBtn.classList.add('input');
     backBtn.type = 'button';
     backBtn.value = 'Назад';
-    backBtn.onclick=()=>{window.history.go(-1)};
+    backBtn.onclick = () => {
+        window.history.go(-1)
+    };
 
-    async function log() {
-        const username = userNameInput.value;
-        const password = passwordInput.value;
-        try {
-            let response = await fetch('http://127.0.0.1:3000/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({username, password})
-            });
-            const result = await response.json();
-            sessionStorage.auth = result.auth;
-            sessionStorage.player = JSON.stringify(result);
-            console.log(result);
-            alert(result.message);
-        } catch (e) {
-            alert(e);
-        }
-
-        location.hash = 'main';
-    }
-
-    return loginMenu;
+    return fragment;
 }

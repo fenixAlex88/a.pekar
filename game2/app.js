@@ -7,9 +7,7 @@ import {bestPage} from "./bestPage.js";
 import {aboutPage} from "./aboutPage.js";
 
 const app = document.getElementById('app');
-let myAudio = new Audio('./assets/audio/imperial-march.mp3');
-//myAudio.play();
-
+const myAudio = new Audio;
 //функция выбора страниц по хэшу
 function switchToStateFromURLHash()  {
     app.innerHTML = null;
@@ -17,9 +15,10 @@ function switchToStateFromURLHash()  {
     switch (stateStr) {
         case 'main':
             app.append(menuPage());
+            audioPlay('./assets/audio/imperial-march.mp3');
             break;
         case 'game':
-            myAudio.pause();
+            audioPlay('./assets/audio/fight.mp3');
             game();
             break;
         case 'login':
@@ -29,27 +28,28 @@ function switchToStateFromURLHash()  {
             app.append(registrationPage());
             break;
         case 'about':
-            myAudio.pause();
+            audioPlay('./assets/audio/about.mp3');
             app.append(aboutPage());
             break;
         case 'best':
             app.append(bestPage());
             break;
         case 'exit':
+            window.open('', '_self', ''); //bug fix
             window.close();
             break;
         default:
+            myAudio.muted = 'muted';
             app.append(errorPage());
             break;
     }
 }
 
+function audioPlay(src){
+    myAudio.src = src;
+    myAudio.play();
+}
+
 location.hash = 'main';
 switchToStateFromURLHash();
 window.addEventListener('hashchange', switchToStateFromURLHash);
-window.addEventListener('dbclick',(e)=>{
-    console.log(1);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
-})

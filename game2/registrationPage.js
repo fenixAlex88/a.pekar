@@ -1,6 +1,9 @@
+import {userAPImodule} from "./userAPI.module.js";
+
 export function registrationPage() {
+    const fragment = document.createDocumentFragment();
     const regMenu = document.createElement('div');
-    app.append(regMenu);
+    fragment.append(regMenu);
     regMenu.classList.add('menu');
     const regForm = document.createElement('form');
     regMenu.append(regForm);
@@ -31,7 +34,7 @@ export function registrationPage() {
     regBtn.classList.add('input');
     regBtn.type = 'button';
     regBtn.value = 'Регистрация';
-    regBtn.onclick = reg;
+    regBtn.onclick=('click', ()=>{userAPImodule.reg(userNameInput.value, passwordInput.value)});
 
     const backBtn = document.createElement('input');
     regForm.append(backBtn);
@@ -42,28 +45,5 @@ export function registrationPage() {
         window.history.go(-1)
     };
 
-    async function reg() {
-        const username = userNameInput.value;
-        const password = passwordInput.value;
-        try {
-            let response = await fetch('http://127.0.0.1:3000/auth/registration', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({username, password})
-            });
-            const result = await response.json();
-            sessionStorage.auth = result.auth;
-            sessionStorage.player = JSON.stringify(result);
-            alert(result.message);
-        } catch (e) {
-            alert(e);
-        }
-
-        location.hash = 'main';
-    }
-
-
-    return regMenu;
+    return fragment;
 }

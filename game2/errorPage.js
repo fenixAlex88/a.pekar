@@ -1,6 +1,7 @@
 export function errorPage() {
+    const fragment = document.createDocumentFragment();
     const errorPage = document.createElement('div');
-    app.append(errorPage);
+    fragment.append(errorPage);
     errorPage.classList.add('errorPage');
     const errorPageCode = document.createElement('h1');
     errorPage.append(errorPageCode);
@@ -20,5 +21,5 @@ export function errorPage() {
     mainLink.textContent = 'На главную';
     mainLink.onclick = () => {location.hash = 'main'};
 
-return errorPage;
+return fragment;
 }
